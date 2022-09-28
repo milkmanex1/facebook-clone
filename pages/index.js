@@ -6,15 +6,36 @@ import Sidebar from "../components/Sidebar";
 import Feed from "../components/Feed";
 import InputBox from "../components/InputBox";
 import Widgets from "../components/Widgets";
+import { useState } from "react";
 export default function Home({ session }) {
+  const backgrounds = [
+    { id: 1, src: "/images/orion-nebula.jpg" },
+    { id: 2, src: "/images/green.jpg" },
+    { id: 3, src: "/images/red.jpg" },
+    { id: 4, src: "/images/stars.jpg" },
+    { id: 5, src: "/images/galaxy.jpg" },
+  ];
+
+  const [bgIndex, setBgIndex] = useState(0);
+
   if (!session) return <Login></Login>;
   return (
-    <div className="h-screen bg-gray-100 overflow-hidden">
+    <div
+      className="h-screen overflow-hidden mainBg"
+      style={{
+        backgroundImage: `url(${backgrounds[bgIndex].src})`,
+        backgroundSize: "cover",
+      }}
+    >
       <Head>
         <title>Facebook</title>
       </Head>
 
-      <Header></Header>
+      <Header
+        backgrounds={backgrounds}
+        bgIndex={bgIndex}
+        setBgIndex={setBgIndex}
+      ></Header>
 
       <main className="flex">
         {/* Sidebar */}

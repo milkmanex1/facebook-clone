@@ -3,7 +3,7 @@ import Image from "next/image";
 
 const SidebarRow = ({ src, Icon, title }) => {
   return (
-    <div className="flex items-center space-x-2 p-2 hover:bg-gray-200 rounded-xl cursor-pointer">
+    <div className="flex items-center space-x-2 p-2 rounded-xl cursor-pointer border-transparent border-2 hover:border-slate-100 hover:border-2 hover:bg-white/20">
       {src && (
         <Image
           className="rounded-full"
@@ -14,7 +14,9 @@ const SidebarRow = ({ src, Icon, title }) => {
         ></Image>
       )}
       {Icon && <Icon className="h-8 w-8 text-blue-500"></Icon>}
-      <p className="hidden sm:inline-flex font-medium">{title}</p>
+      <p className="hidden sm:inline-flex font-medium text-slate-100">
+        {title}
+      </p>
     </div>
   );
 };

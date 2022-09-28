@@ -1,4 +1,6 @@
 import "../styles/globals.css";
+import "../styles/Login.css";
+import "../styles/index.css";
 import { SessionProvider } from "next-auth/react";
 
 //this provider allows us to persist a login state between pages on NextJs

@@ -1,0 +1,20 @@
+.mainBg {
+  /* background-image: url("/images/orion-nebula.jpg");
+  background-image: url("/images/green.jpg"); */
+  /* background-size: cover; */
+  transition: all 0.7s linear;
+}
+
+.custom-pulse:hover {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    filter: brightness(80%);
+  }
+  50% {
+    filter: brightness(120%);
+  }
+}
