@@ -3,6 +3,9 @@
 
   font-size: 8rem;
   color: white;
+  /* height: 150px;
+  display: flex;
+  align-items: center; */
 }
 
 .loginBtn {

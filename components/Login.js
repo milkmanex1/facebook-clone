@@ -11,13 +11,12 @@ const Login = () => {
     >
       <div className="grid place-items-center mt-20">
         {/* <Image
-          src="/images/logo1.png"
-          height={300}
-          width={300}
-          objectFit="contain"
-        ></Image> */}
-
+            src="/images/logo2-modified.png"
+            height={150}
+            width={150}
+          ></Image> */}
         <div className="welcome">Spacebook</div>
+
         <h1 className="loginBtn" onClick={signIn}>
           Login with Facebook
         </h1>
