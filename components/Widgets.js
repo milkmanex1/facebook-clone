@@ -5,9 +5,9 @@ import { DotsHorizontalIcon, VideoCameraIcon } from "@heroicons/react/solid";
 
 const contacts = [
   { src: "/images/Stevenlollipop1.jpeg", name: "Steven Lim" },
-  { src: "/images/sunhodp.jpg", name: "Sun Ho" },
-  { src: "/images/dk (4).jpg", name: "JDee Kosh" },
-  { src: "/images/amosyeeDP (2).jpg", name: "Amos Yee" },
+  { src: "/images/sunhodp.jpg", name: "Sun Po" },
+  { src: "/images/dk (4).jpg", name: "Dee Kosh" },
+  { src: "/images/amosyeeDP (2).jpg", name: "Amos Yi" },
   { src: "/images/chuandoDP1.jpg", name: "Chuan Do" },
   { src: "/images/mark-lee.jpg", name: "Mark Lee" },
   { src: "https://links.papareact.com/f0p", name: "Jeff Bezoz" },
@@ -16,7 +16,7 @@ const contacts = [
 const Widgets = () => {
   return (
     <div className="hidden lg:flex flex-col w-60 p-2 mt-5">
-      <div className="flex justify-between items-center text-gray-500 mb-5">
+      <div className="flex justify-between items-center text-slate-200 mb-5">
         <h2 className="text-xl">Contacts</h2>
         <div className="flex space-x-2">
           <VideoCameraIcon className="h-6"></VideoCameraIcon>
@@ -30,7 +30,7 @@ const Widgets = () => {
         return (
           <div
             key={contact.src}
-            className="flex items-center space-x-3 mb-2 relative hover:bg-gray-200 cursor-pointer p-2 rounded-xl"
+            className="flex items-center space-x-3 mb-2 relative border-transparent border-2 hover:border-slate-100 hover:border-2 hover:bg-white/20 cursor-pointer p-2 rounded-xl"
           >
             <Image
               className="rounded-full"
@@ -40,7 +40,7 @@ const Widgets = () => {
               height={50}
               layout="fixed"
             ></Image>
-            <p>{name}</p>
+            <p className="text-slate-100">{name}</p>
             <div className="absolute bottom-2 left-7 bg-green-400 h-3 w-3 rounded-full "></div>
           </div>
         );

@@ -8,12 +8,12 @@ const stories = [
     profile: "/images/Stevenlollipop1.jpeg",
   },
   {
-    name: "Sun Ho",
+    name: "Sun Po",
     src: "/images/sun-ho-makeup.jpg",
     profile: "/images/sunhodp.jpg",
   },
   {
-    name: "Amos Yee",
+    name: "Amos Yi",
     src: "/images/amosyeeStory.jpg",
     profile: "/images/amosyeeDP (2).jpg",
   },

@@ -20,8 +20,8 @@ const Posts = () => {
         const postImage = post.data().postImage;
 
         return (
-          <div key={post.id} className="flex flex-col">
-            <div className="p-5 bg-white mt-5 rounded-t-2xl shadow-sm">
+          <div key={post.id} className="flex flex-col ">
+            <div className="blurryBackground p-5  mt-5 rounded-t-2xl shadow-sm border-x-2 border-t-2 border-slate-100 postSides">
               <div className="flex items-center space-x-2">
                 <img
                   className="rounded-full"
@@ -31,36 +31,36 @@ const Posts = () => {
                   alt=""
                 />
                 <div>
-                  <p className="font-medium">{name}</p>
+                  <p className="font-medium text-slate-100">{name}</p>
                   {timestamp ? (
-                    <p className="text-xs text-gray-400">
+                    <p className="text-xs mainText">
                       {new Date(timestamp?.toDate()).toLocaleString()}
                     </p>
                   ) : (
-                    <p className="text-xs text-gray-400">Loading</p>
+                    <p className="text-xs mainText">Loading</p>
                   )}
                 </div>
               </div>
-              <p className="pt-4">{message}</p>
+              <p className="pt-4 mainText">{message}</p>
             </div>
             {postImage && (
-              <div className="relative h-56 md:h-[900px] bg-white">
+              <div className="relative h-56 md:h-[500px] bg-transparent border-x-2 ">
                 <Image src={postImage} objectFit="cover" layout="fill"></Image>
               </div>
             )}
             {/* Footer of the post */}
-            <div className="flex justify-between items-center rounded-b-2xl bg-white shadow-md text-gray-600 border-t">
+            <div className="blurryBackground flex justify-between items-center rounded-b-2xl  shadow-md  text-slate-200 border-2 ">
               <div className="inputIcon">
                 <ThumbUpIcon className="h-4" />
-                <p className="text-xs sm:text-base">Like</p>
+                <p className="text-xs sm:text-base mainText">Like</p>
               </div>
               <div className="inputIcon">
                 <ChatAltIcon className="h-4" />
-                <p className="text-xs sm:text-base">Comment</p>
+                <p className="text-xs sm:text-base mainText">Comment</p>
               </div>
               <div className="inputIcon">
                 <ThumbUpIcon className="h-4" />
-                <p className="text-xs sm:text-base">Share</p>
+                <p className="text-xs sm:text-base mainText">Share</p>
               </div>
             </div>
           </div>

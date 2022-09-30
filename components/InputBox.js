@@ -115,7 +115,7 @@ const InputBox = () => {
   }
 
   return (
-    <div className="bg-white p-2 rounded-2xl shadow-md text-gray-500 font-medium mt-6">
+    <div className="blurryBackground p-2 rounded-2xl shadow-md text-gray-500 font-medium mt-6 border-2">
       <div className="flex space-x-3 p-4 items-center">
         <Image
           className="rounded-full"
@@ -151,7 +151,7 @@ const InputBox = () => {
       <div className="flex justify-evenly p-3 border-t-0 ">
         <div className="inputIcon">
           <VideoCameraIcon className="h-7 text-red-500"></VideoCameraIcon>
-          <p className="text-xs sm:text-sm xl:text-base">Live Video</p>
+          <p className="text-xs sm:text-sm xl:text-base mainText">Live Video</p>
         </div>
         <div
           className="inputIcon"
@@ -159,8 +159,10 @@ const InputBox = () => {
             filepickerRef.current.click();
           }}
         >
-          <CameraIcon className="h-7 text-green-400"></CameraIcon>
-          <p className="text-xs sm:text-sm xl:text-base">Photo/Video</p>
+          <CameraIcon className="h-7 text-green-500"></CameraIcon>
+          <p className="text-xs sm:text-sm xl:text-base mainText">
+            Photo/Video
+          </p>
           <input
             ref={filepickerRef}
             onChange={addImageToPost}
@@ -170,7 +172,9 @@ const InputBox = () => {
         </div>
         <div className="inputIcon">
           <EmojiHappyIcon className="h-7 text-yellow-300"></EmojiHappyIcon>
-          <p className="text-xs sm:text-sm xl:text-base">Feeling/Activity</p>
+          <p className="text-xs sm:text-sm xl:text-base mainText">
+            Feeling/Activity
+          </p>
         </div>
         {/* <button
           className="rounded-md bg-slate-400 text-white p-1 text-sm"

@@ -1,0 +1,27 @@
+.welcome {
+  font-family: Alien Ravager;
+
+  font-size: 8rem;
+  color: white;
+  /* height: 150px;
+  display: flex;
+  align-items: center; */
+}
+
+.loginBtn {
+  width: 400px;
+  color: white;
+  font-size: 1.2rem;
+  padding: 1.25rem;
+  border: 1px solid white;
+  text-align: center;
+  border-radius: 999px;
+  cursor: pointer;
+  background-color: rgba(0, 0, 0, 0.01);
+  box-shadow: 0 0 20px white;
+  transition: all 0.3s ease-in-out;
+}
+.loginBtn:hover {
+  box-shadow: 0 0 40px white;
+  background-color: rgba(255, 255, 255, 0.2);
+}
