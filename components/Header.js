@@ -29,7 +29,7 @@ const Header = ({ backgrounds, bgIndex, setBgIndex }) => {
     }
   }
   return (
-    <div className="sticky top-0 z-50 bg-black/10  flex items-center p-2 lg:px-5 shadow-md">
+    <div className="sticky top-0 z-50 bg-slate-900/40  flex items-center p-2 lg:px-5 shadow-md">
       <div className="flex items-center ">
         <Image
           className="cursor-pointer "

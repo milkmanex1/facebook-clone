@@ -17,7 +17,8 @@ import {
   getDownloadURL,
   uploadString,
 } from "firebase/storage";
-import { doc, setDoc } from "firebase/firestore";
+
+import { doc, setDoc, getDocs } from "firebase/firestore";
 const InputBox = () => {
   const { data: session, status } = useSession();
 
@@ -25,6 +26,15 @@ const InputBox = () => {
   const filepickerRef = useRef(null);
   const [imageToPost, setImageToPost] = useState(null);
   const [testImage, setTestImage] = useState(null);
+
+  function testFunction() {
+    getDocs(colRef).then((snapshot) => {
+      let myData = snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+
+      console.log(myData);
+    });
+  }
+
   useEffect(() => {
     // console.log(imageToPost);
   }, [imageToPost]);
@@ -41,6 +51,10 @@ const InputBox = () => {
         name: session.user.name,
         email: session.user.email,
         image: session.user.image,
+        likes: 0,
+        comments: [],
+        shares: 0,
+
         timestamp: serverTimestamp(),
       }).then((docSN) => {
         if (imageToPost) {
@@ -48,10 +62,6 @@ const InputBox = () => {
           removeImage();
           const storageRef = ref(storage, `posts/${docSN.id}`);
           const uploadTask = uploadBytesResumable(storageRef, testImage);
-          //v8 syntax
-          //   const uploadTask = storage
-          //     .ref(`posts/${doc.id}`)
-          //     .putString(imageToPost, "data_url");
 
           uploadTask.on(
             "state_change",
@@ -60,13 +70,6 @@ const InputBox = () => {
             () => {
               console.log("time to get download url");
               getDownloadURL(storageRef).then((url) => {
-                // const xhr = new XMLHttpRequest();
-                // xhr.responseType = "blob";
-                // xhr.onload = (event) => {
-                //   const blob = xhr.response;
-                // };
-                // xhr.open("GET", url);
-                // xhr.send();
                 console.log(url);
                 setDoc(
                   doc(db, "posts", docSN.id),
@@ -178,7 +181,7 @@ const InputBox = () => {
         </div>
         {/* <button
           className="rounded-md bg-slate-400 text-white p-1 text-sm"
-          onClick={uploadImage}
+          onClick={testFunction}
         >
           Test Button
         </button> */}
