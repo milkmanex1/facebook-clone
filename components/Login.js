@@ -18,7 +18,7 @@ const Login = () => {
         <div className="welcome">Spacebook</div>
 
         <h1 className="loginBtn" onClick={signIn}>
-          Login with Facebook
+          Login
         </h1>
       </div>
     </div>

@@ -69,7 +69,9 @@ const Header = ({ backgrounds, bgIndex, setBgIndex }) => {
         <Image
           onClick={signOut}
           className="rounded-full cursor-pointer"
-          src={session.user.image}
+          src={
+            session.user.image ? session.user.image : "/images/guest-icon.png"
+          }
           height={40}
           width={40}
           layout="fixed"

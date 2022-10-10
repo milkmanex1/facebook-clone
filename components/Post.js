@@ -10,8 +10,10 @@ import {
 } from "firebase/firestore";
 import Image from "next/image";
 import { useCollection } from "react-firebase-hooks/firestore";
+
 import { colRef, db } from "../firebase";
 import { ChatAltIcon, ShareIcon, ThumbUpIcon } from "@heroicons/react/outline";
+import { useSession } from "next-auth/react";
 
 const Post = ({
   name,
@@ -29,6 +31,7 @@ const Post = ({
   const [showComments, setShowComments] = useState(false);
   const commentRef = useRef(null);
 
+  const { data: session, status } = useSession();
   //   useEffect(() => {
   //     const postRef = doc(db, "posts", id);
   //     updateDoc(postRef, {
@@ -54,7 +57,11 @@ const Post = ({
       //add new comment
       const postRef = doc(db, "posts", id);
       updateDoc(postRef, {
-        comments: arrayUnion(commentRef.current.value),
+        comments: arrayUnion({
+          content: commentRef.current.value,
+          userName: session.user.name,
+          userImage: session.user.image,
+        }),
       });
       commentRef.current.value = "";
     }
@@ -104,10 +111,13 @@ const Post = ({
           </div>
         )}
         <div className="flex space-x-4">
-          {comments && (
+          {Array.from(comments).length > 0 && (
             <div className="flex space-x-1">
               <p>{Array.from(comments).length}</p>
-              <p className="text-xs sm:text-base mainText cursor-pointer">
+              <p
+                className="text-xs sm:text-base mainText cursor-pointer"
+                onClick={openComments}
+              >
                 Comments
               </p>
             </div>
@@ -143,9 +153,9 @@ const Post = ({
           <p className="text-xs sm:text-base mainText">Share</p>
         </div>
       </div>
-      {/* Comments Section*/}
+      {/*------------------ Comments Section*--------------/}
 
-      {/* Comment input */}
+      {/* -----------Comment input----------------- */}
       {showCommentInput && (
         <div
           className={`blurryBackground flex space-x-2 px-4 py-2 border-2 border-t-0 rounded-b-2xl ${
@@ -154,7 +164,7 @@ const Post = ({
         >
           <img
             className="rounded-full p-1"
-            src={image}
+            src={session.user.image}
             width={50}
             height={50}
             alt=""
@@ -172,22 +182,22 @@ const Post = ({
           </form>
         </div>
       )}
-      {/* comments */}
+      {/*--------------- comments---------------------- */}
       {showComments && (
         <div className="blurryBackground flex flex-col gap-y-2 border-2 border-t-0 rounded-b-2xl p-5 pt-2">
           {Array.from(comments)?.map((comment, id) => {
             return (
               <div key={id} className="text-slate-100 flex space-x-2 ">
                 <img
-                  src={image}
+                  src={comment.userImage}
                   className="rounded-full h-8 w-8"
                   width={40}
                   height={40}
                   alt=""
                 />
                 <div className="bg-slate-500/50 px-4 py-1 rounded-2xl">
-                  <div className="font-semibold">{name}</div>
-                  <div>{comment}</div>
+                  <div className="font-semibold">{comment.userName}</div>
+                  <div>{comment.content}</div>
                 </div>
               </div>
             );
