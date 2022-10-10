@@ -46,8 +46,8 @@ const Post = ({
     });
   }
   function openComments() {
-    setShowCommentInput(true);
-    setShowComments(true);
+    setShowCommentInput(!showCommentInput);
+    setShowComments(!showComments);
   }
   function sendComment(e) {
     e.preventDefault();
