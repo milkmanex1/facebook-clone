@@ -92,7 +92,7 @@ const Post = ({
         <p className="pt-4 mainText">{message}</p>
       </div>
       {postImage && (
-        <div className="relative h-56 md:h-[600px] bg-transparent border-x-2 ">
+        <div className="relative h-56 md:h-[400px] bg-transparent border-x-2 ">
           <Image src={postImage} objectFit="cover" layout="fill"></Image>
         </div>
       )}
