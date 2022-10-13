@@ -2,6 +2,7 @@ import React from "react";
 import Image from "next/image";
 import HeaderIcon from "./HeaderIcon.js";
 import { useSession, signOut } from "next-auth/react";
+import Popper from "./Popper.js";
 
 import {
   BellIcon,
@@ -11,6 +12,7 @@ import {
   UserGroupIcon,
   ViewGridIcon,
   SparklesIcon,
+  ArrowLeftOnRectangleIcon,
 } from "@heroicons/react/solid";
 import {
   FlagIcon,
@@ -64,10 +66,10 @@ const Header = ({ backgrounds, bgIndex, setBgIndex }) => {
         </div>
       </div>
       {/* right */}
-      <div className="flex items-center sm:space-x-1 justify-end">
+      <div className="flex items-center gap-x-2 sm:space-x-1 justify-end">
         {/* profile pic */}
-        <Image
-          onClick={signOut}
+        {/* <Image
+          onClick={() => {}}
           className="rounded-full cursor-pointer"
           src={
             session.user.image ? session.user.image : "/images/guest-icon.png"
@@ -75,14 +77,14 @@ const Header = ({ backgrounds, bgIndex, setBgIndex }) => {
           height={40}
           width={40}
           layout="fixed"
-        ></Image>
-        <p className="whitespace-nowrap font-semibold pr-3 text-slate-100">
+        ></Image> */}
+        {/* <p className="whitespace-nowrap font-semibold pr-3 text-slate-100">
           {session.user.name}
-        </p>
+        </p> */}
         <ViewGridIcon className="icon"></ViewGridIcon>
         <ChatIcon className="icon"></ChatIcon>
         <BellIcon className="icon"></BellIcon>
-        <ChevronDownIcon className="icon" />
+        <Popper className="icon"></Popper>
       </div>
     </div>
   );

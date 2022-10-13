@@ -8,14 +8,15 @@ import InputBox from "../components/InputBox";
 import Widgets from "../components/Widgets";
 import { useState } from "react";
 
-export default function Home({ session }) {
+export default function Home() {
+  const { data: session } = useSession();
   console.log(session);
   const backgrounds = [
     { id: 1, src: "/images/orion-nebula.jpg" },
     { id: 2, src: "/images/green.jpg" },
-    { id: 3, src: "/images/red.jpg" },
-    { id: 4, src: "/images/stars.jpg" },
     { id: 5, src: "/images/galaxy.jpg" },
+    { id: 5, src: "/images/dark.jpg" },
+    { id: 5, src: "/images/darkwavy.jpg" },
   ];
 
   const [bgIndex, setBgIndex] = useState(0);
