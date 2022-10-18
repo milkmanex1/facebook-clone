@@ -36,6 +36,12 @@
 .loginBtn {
   /* @apply p-5 bg-white/5 backdrop-blur-md border-2 rounded-full border-white text-white text-center cursor-pointer shadow-xl  shadow-white; */
 }
+
+/**--------------- profile--------------- */
+.simpleBtn {
+  @apply bg-slate-400/50 p-2 rounded-xl cursor-pointer border-transparent border-2 hover:border-slate-100  hover:bg-blue-500;
+}
+
 @layer base {
   @font-face {
     font-family: "Alien Ravager";

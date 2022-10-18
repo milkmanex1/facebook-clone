@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
+import Link from "next/link";
 import {
   collection,
   query,
@@ -71,13 +72,24 @@ const Post = ({
     <div key={id} className="flex flex-col ">
       <div className="blurryBackground p-5  mt-5 rounded-t-2xl shadow-sm border-x-2 border-t-2 border-slate-100 postSides">
         <div className="flex items-center space-x-2">
-          <img
-            className="rounded-full"
-            src={image}
-            width={40}
-            height={40}
-            alt=""
-          />
+          <Link
+            href={{
+              pathname: "/profile",
+              query: {
+                email: email,
+              },
+            }}
+          >
+            <a>
+              <img
+                className="rounded-full cursor-pointer"
+                src={image}
+                width={40}
+                height={40}
+                alt=""
+              />
+            </a>
+          </Link>
           <div>
             <p className="font-medium text-slate-100">{name}</p>
             {timestamp ? (

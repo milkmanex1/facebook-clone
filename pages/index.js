@@ -10,7 +10,8 @@ import { useState } from "react";
 
 export default function Home() {
   const { data: session } = useSession();
-  console.log(session);
+  //   console.log(session);
+
   const backgrounds = [
     { id: 1, src: "/images/orion-nebula.jpg" },
     { id: 2, src: "/images/green.jpg" },
@@ -31,7 +32,7 @@ export default function Home() {
       }}
     >
       <Head>
-        <title>Facebook</title>
+        <title>Spacebook</title>
       </Head>
 
       <Header
@@ -50,13 +51,13 @@ export default function Home() {
     </div>
   );
 }
-export async function getServerSideProps(context) {
-  //Get the user
-  const session = await getSession(context);
+// export async function getServerSideProps(context) {
+//   //Get the user
+//   const session = await getSession(context);
 
-  return {
-    props: {
-      session,
-    },
-  };
-}
+//   return {
+//     props: {
+//       session,
+//     },
+//   };
+// }

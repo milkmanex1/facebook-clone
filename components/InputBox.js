@@ -35,10 +35,6 @@ const InputBox = () => {
     });
   }
 
-  useEffect(() => {
-    // console.log(imageToPost);
-  }, [imageToPost]);
-
   function sendPost(e) {
     e.preventDefault();
     //dont allow user to send post if input value is empty
@@ -79,19 +75,6 @@ const InputBox = () => {
                   { merge: true }
                 );
               });
-
-              //v8 syntax
-              //   storage
-              //     .ref(`posts/${doc.id}`)
-              //     .getDownloadURL()
-              //     .then((url) => {
-              //       db.collection("posts").doc(doc.id).set(
-              //         {
-              //           postImage: url,
-              //         },
-              //         { merge: true }
-              //       );
-              //     });
             }
           );
         }
@@ -201,5 +184,3 @@ export default InputBox;
 //The only diff is that he did not convert the image to a dataURL. He just took the image from the e.target.files[0]
 
 //So the issue was that I was uploading a wrong type of image file.
-
-//Why the fuck Sonny code so fucking stupid man...

@@ -2,6 +2,7 @@ import React from "react";
 import Image from "next/image";
 import HeaderIcon from "./HeaderIcon.js";
 import { useSession, signOut } from "next-auth/react";
+import Link from "next/link";
 import Popper from "./Popper.js";
 
 import {
@@ -23,24 +24,28 @@ import {
 const Header = ({ backgrounds, bgIndex, setBgIndex }) => {
   const { data: session, status } = useSession();
 
-  function changeBG() {
-    if (bgIndex < backgrounds.length - 1) {
-      setBgIndex(bgIndex + 1);
-    } else {
-      setBgIndex(0);
-    }
-  }
+  //   function changeBG() {
+  //     if (bgIndex < backgrounds.length - 1) {
+  //       setBgIndex(bgIndex + 1);
+  //     } else {
+  //       setBgIndex(0);
+  //     }
+  //   }
   return (
     <div className="sticky top-0 z-50 bg-slate-900/40  flex items-center p-2 lg:px-5 shadow-md">
       <div className="flex items-center ">
-        <Image
-          className="cursor-pointer "
-          src="/images/logo2-modified.png"
-          width={40}
-          height={40}
-          layout="fixed"
-          onClick={changeBG}
-        ></Image>
+        <Link href="/">
+          {/* wrap it in <a> tags so the annoying error goes away */}
+          <a>
+            <Image
+              className="cursor-pointer "
+              src="/images/logo2-modified.png"
+              width={40}
+              height={40}
+              layout="fixed"
+            ></Image>
+          </a>
+        </Link>
         <div className="flex ml-2 items-center rounded-full bg-gray-100 p-2">
           <SearchIcon className="h-6 text-gray-600 cursor-pointer" />
 
@@ -84,7 +89,12 @@ const Header = ({ backgrounds, bgIndex, setBgIndex }) => {
         <ViewGridIcon className="icon"></ViewGridIcon>
         <ChatIcon className="icon"></ChatIcon>
         <BellIcon className="icon"></BellIcon>
-        <Popper className="icon"></Popper>
+        <Popper
+          backgrounds={backgrounds}
+          bgIndex={bgIndex}
+          setBgIndex={setBgIndex}
+          className="icon"
+        ></Popper>
       </div>
     </div>
   );
