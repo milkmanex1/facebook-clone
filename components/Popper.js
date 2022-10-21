@@ -6,6 +6,9 @@ import Image from "next/image";
 import { LogoutIcon, SparklesIcon } from "@heroicons/react/solid";
 import ClickAwayListener from "@mui/base/ClickAwayListener";
 import Link from "next/link";
+import AppContext from "../components/AppContext";
+import { useState, useEffect, useContext } from "react";
+
 const style = {
   //   position: "absolute",
   //   top: 0,
@@ -16,25 +19,21 @@ const style = {
   width: "15rem",
   height: "15rem",
   padding: "1rem",
-  bgcolor: "background.paper",
+  //   bgcolor: "black",
   borderRadius: "0.5rem",
   //   border: "2px solid #000",
   //   boxShadow: 24,
   //   p: 4,
 };
 
-export default function SimplePopper({ backgrounds, bgIndex, setBgIndex }) {
+export default function SimplePopper({ backgrounds }) {
   const { data: session, status } = useSession();
 
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  //get required stuff from context
+  const { changeBG, profileImg, userName } = useContext(AppContext);
 
-  function changeBG() {
-    if (bgIndex < backgrounds.length - 1) {
-      setBgIndex(bgIndex + 1);
-    } else {
-      setBgIndex(0);
-    }
-  }
+  //MUI function
+  const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleClick = (event) => {
     setAnchorEl(anchorEl ? null : event.currentTarget);
@@ -46,13 +45,23 @@ export default function SimplePopper({ backgrounds, bgIndex, setBgIndex }) {
   const open = Boolean(anchorEl);
   const id = open ? "simple-popper" : undefined;
 
+  //   useEffect(() => {
+  //     console.log(`popper userName is: ${userName}`);
+  //   }, []);
+
   return (
     <div className="flex flex-col align-center">
       <Image
         onClick={handleClick}
         aria-describedby={id}
         className="rounded-full cursor-pointer"
-        src={session ? session.user.image : "/images/guest-icon.png"}
+        src={
+          profileImg
+            ? profileImg
+            : session.user.image
+            ? session.user.image
+            : "/images/guest-icon.png"
+        }
         height={50}
         width={50}
         layout="fixed"
@@ -68,7 +77,7 @@ export default function SimplePopper({ backgrounds, bgIndex, setBgIndex }) {
       <Popper id={id} open={open} anchorEl={anchorEl}>
         {/* <Box sx={{ border: 1, p: 1, bgcolor: "background.paper" }}> */}
         <ClickAwayListener onClickAway={handleClickAway}>
-          <Box sx={style}>
+          <Box sx={style} className="border-2 border-white bg-slate-900">
             <div className="flex flex-col">
               {/* profile  */}
               <Link
@@ -76,14 +85,17 @@ export default function SimplePopper({ backgrounds, bgIndex, setBgIndex }) {
                   pathname: "/profile",
                   query: {
                     email: session.user.email,
+                    userName: session.user.name,
                   },
                 }}
               >
-                <div className="p-2 flex rounded-lg  hover:bg-slate-200 active:bg-slate-400 cursor-pointer gap-x-2">
+                <div className="popperBtn">
                   <Image
-                    className="rounded-full cursor-pointer"
+                    className="rounded-full cursor-pointer "
                     src={
-                      session.user.image
+                      profileImg
+                        ? profileImg
+                        : session.user.image
                         ? session.user.image
                         : "/images/guest-icon.png"
                     }
@@ -92,28 +104,22 @@ export default function SimplePopper({ backgrounds, bgIndex, setBgIndex }) {
                     layout="fixed"
                   ></Image>
                   <div className="grid items-center text-lg font-semibold ">
-                    {session.user.name}
+                    {userName ? userName : session.user.name}
                   </div>
                 </div>
               </Link>
               {/* change background */}
 
-              <div
-                className="p-2 flex rounded-lg  hover:bg-slate-200 cursor-pointer gap-x-2 active:bg-slate-400"
-                onClick={changeBG}
-              >
-                <SparklesIcon className="h-10 w-10 bg-slate-300 rounded-full p-2 "></SparklesIcon>
+              <div className="popperBtn" onClick={changeBG}>
+                <SparklesIcon className="h-10 w-10 bg-slate-500 rounded-full p-2 "></SparklesIcon>
                 <div className="grid items-center text-md font-semibold ">
                   New Background
                 </div>
               </div>
 
               {/* logout */}
-              <div
-                className="p-2 flex rounded-lg  hover:bg-slate-200 cursor-pointer gap-x-2 active:bg-slate-400"
-                onClick={signOut}
-              >
-                <LogoutIcon className="h-10 w-10 bg-slate-300 rounded-full p-2 "></LogoutIcon>
+              <div className="popperBtn" onClick={signOut}>
+                <LogoutIcon className="h-10 w-10 bg-slate-500 rounded-full p-2 "></LogoutIcon>
                 <div className="grid items-center text-md font-semibold ">
                   Logout
                 </div>

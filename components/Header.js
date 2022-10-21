@@ -21,7 +21,7 @@ import {
   SearchIcon,
   ShoppingCartIcon,
 } from "@heroicons/react/outline";
-const Header = ({ backgrounds, bgIndex, setBgIndex }) => {
+const Header = () => {
   const { data: session, status } = useSession();
 
   //   function changeBG() {
@@ -89,12 +89,7 @@ const Header = ({ backgrounds, bgIndex, setBgIndex }) => {
         <ViewGridIcon className="icon"></ViewGridIcon>
         <ChatIcon className="icon"></ChatIcon>
         <BellIcon className="icon"></BellIcon>
-        <Popper
-          backgrounds={backgrounds}
-          bgIndex={bgIndex}
-          setBgIndex={setBgIndex}
-          className="icon"
-        ></Popper>
+        <Popper className="icon"></Popper>
       </div>
     </div>
   );

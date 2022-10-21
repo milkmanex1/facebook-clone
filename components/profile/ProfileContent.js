@@ -3,7 +3,9 @@ import { useEffect, useRef, useState, react } from "react";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
 import InputBox from "../InputBox";
+import ProfileInputBox from "./ProfileInputBox";
 import ProfilePosts from "./ProfilePosts";
+
 import {
   doc,
   arrayUnion,
@@ -95,18 +97,12 @@ const ProfileContent = ({ identifier }) => {
         setUserName(snap.data().userName);
       }
     }
-    // getDoc(profileRef).then((doc) => {
-
-    //   setIntroHead(doc.data().introHead);
-    //   setIntroInfo(doc.data().introInfo);
-    //   setUserName(doc.data().userName);
-    // });
   }
 
   return (
     <div className="mt-4 mx-8 lg:flex lg:gap-x-8 lg:justify-center">
       {/* Intro */}
-      <div className=" p-4 text-slate-100 border-2 border-white rounded-xl min-w-[350px] max-h-screen max-w-none lg:max-w-[450px]">
+      <div className=" p-4 text-slate-100 border-2 border-white rounded-xl min-w-[350px] max-h-screen max-w-none lg:max-w-[450px] lg:min-w-[400px] ">
         <p className="text-4xl font-semibold mb-2">Intro</p>
         {/* Intro Head or Bio*/}
         {openEditBio ? (
@@ -115,7 +111,7 @@ const ProfileContent = ({ identifier }) => {
               type="text"
               ref={inputRef}
               className="rounded-md bg-gray-100 flex-grow px-5 focus:outline-none text-black py-2"
-              maxlength="100"
+              maxLength="100"
               rows="3"
               placeholder={`Write something about yourself, ${session.user.name}`}
             />
@@ -170,7 +166,7 @@ const ProfileContent = ({ identifier }) => {
                 type="text"
                 ref={inputRef}
                 className="rounded-md bg-gray-100 flex-grow px-5 focus:outline-none text-black py-2"
-                maxlength="50"
+                maxLength="50"
                 rows="3"
                 placeholder={`Add work, education, hobbies, interests, or anything`}
               />
@@ -210,12 +206,20 @@ const ProfileContent = ({ identifier }) => {
       {/* feed */}
 
       {/* posts---only if match user email*/}
-      <div className="flex-grow min-w-[700px] max-w-[1000px]">
-        <div className="text-white p-4  border-2 border-white rounded-xl mt-4">
+      <div className="flex-grow lg:min-w-[700px] max-w-[900px] pb-36">
+        <div>
+          {email == session.user.email ? (
+            <InputBox></InputBox>
+          ) : (
+            <ProfileInputBox identifier={identifier} />
+          )}
+        </div>
+
+        <div className="text-white p-4  border-2 border-white rounded-xl mt-4 blurryBackground">
           <p className="font-semibold text-4xl ">Posts</p>
           <p>By {userName}</p>
         </div>
-        <ProfilePosts thisEmail={email}></ProfilePosts>
+        <ProfilePosts thisEmail={email} identifier={identifier}></ProfilePosts>
       </div>
     </div>
   );

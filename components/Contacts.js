@@ -5,11 +5,11 @@ import { DotsHorizontalIcon, VideoCameraIcon } from "@heroicons/react/solid";
 
 const contacts = [
   { src: "/images/Stevenlollipop1.jpeg", name: "Steven Lim" },
-  { src: "/images/sunhodp.jpg", name: "Sun Po" },
-  { src: "/images/dk (4).jpg", name: "Dee Kosh" },
-  { src: "/images/amosyeeDP (2).jpg", name: "Amos Yi" },
+  { src: "/images/justinProfile.jpg", name: "Justin Bieber" },
+  { src: "/images/putinDp.jpg", name: "Vlad Putin" },
+  { src: "/images/obamaDp.jpeg", name: "Barack Obama" },
   { src: "/images/chuandoDP1.jpg", name: "Chuan Do" },
-  { src: "/images/mark-lee.jpg", name: "Mark Lee" },
+  { src: "/images/jinpingDp.jpg", name: "Jin Ping" },
   { src: "https://links.papareact.com/f0p", name: "Jeff Bezoz" },
 ];
 

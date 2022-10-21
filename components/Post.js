@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useContext } from "react";
 import Link from "next/link";
 import {
   collection,
@@ -7,19 +7,24 @@ import {
   updateDoc,
   doc,
   addDoc,
+  getDoc,
   arrayUnion,
 } from "firebase/firestore";
 import Image from "next/image";
 import { useCollection } from "react-firebase-hooks/firestore";
+import DeletePopper from "./profile/DeletePopper";
 
 import { colRef, db } from "../firebase";
 import { ChatAltIcon, ShareIcon, ThumbUpIcon } from "@heroicons/react/outline";
+import { DotsVerticalIcon, ChevronRightIcon } from "@heroicons/react/solid";
 import { useSession } from "next-auth/react";
+import AppContext from "../components/AppContext";
 
 const Post = ({
   name,
   message,
-  email,
+  postEmail,
+  receiverEmail,
   timestamp,
   image,
   postImage,
@@ -27,19 +32,20 @@ const Post = ({
   shares,
   comments,
   id,
+  identifier,
 }) => {
   const [showCommentInput, setShowCommentInput] = useState(false);
   const [showComments, setShowComments] = useState(false);
   const commentRef = useRef(null);
 
   const { data: session, status } = useSession();
-  //   useEffect(() => {
-  //     const postRef = doc(db, "posts", id);
-  //     updateDoc(postRef, {
-  //       likes: myLikes,
-  //     }).then(() => {
-  //     });
-  //   }, [myLikes]);
+  //info about current user, not the guy whose page is being viewed
+  const { profileImg, userName } = useContext(AppContext);
+
+  const [identifierUserName, setIdentifierUserName] = useState(null);
+  const [latestUserName, setLatestUserName] = useState(null);
+  const [latestProfileImg, setLatestProfileImg] = useState(null);
+
   function likePost(id) {
     const postRef = doc(db, "posts", id);
     updateDoc(postRef, {
@@ -60,38 +66,73 @@ const Post = ({
       updateDoc(postRef, {
         comments: arrayUnion({
           content: commentRef.current.value,
-          userName: session.user.name,
-          userImage: session.user.image,
+          userName: userName ? userName : session.user.name,
+          userImage: profileImg ? profileImg : session.user.image,
+          email: session.user.email,
         }),
       });
       commentRef.current.value = "";
     }
   }
+  async function getIdentifierUserName() {
+    if (identifier) {
+      const profileRef = doc(db, "profiles", identifier.email);
+      const snap = await getDoc(profileRef);
+      if (snap.exists()) {
+        setIdentifierUserName(snap.data().userName);
+      }
+    }
+  }
+  async function getLatestPostInfo() {
+    if (postEmail) {
+      const profileRef = doc(db, "profiles", postEmail);
+      const snap = await getDoc(profileRef);
+      if (snap.exists()) {
+        setLatestUserName(snap.data().userName);
+        setLatestProfileImg(snap.data().profileImg);
+      }
+    }
+  }
+  useEffect(() => {
+    getIdentifierUserName();
+    getLatestPostInfo();
+  }, []);
 
   return (
     <div key={id} className="flex flex-col ">
-      <div className="blurryBackground p-5  mt-5 rounded-t-2xl shadow-sm border-x-2 border-t-2 border-slate-100 postSides">
+      <div className="blurryBackground p-5  mt-5 rounded-t-2xl shadow-sm border-x-2 border-t-2 border-slate-100 postSides relative">
         <div className="flex items-center space-x-2">
+          {/* profile image */}
           <Link
             href={{
               pathname: "/profile",
               query: {
-                email: email,
+                email: postEmail,
+                userName: name,
               },
             }}
           >
             <a>
               <img
                 className="rounded-full cursor-pointer"
-                src={image}
+                src={latestProfileImg}
                 width={40}
                 height={40}
                 alt=""
+                referrerPolicy="no-referrer"
               />
             </a>
           </Link>
           <div>
-            <p className="font-medium text-slate-100">{name}</p>
+            {/* name of Poster */}
+            {receiverEmail ? (
+              <div className="font-medium text-slate-100 flex">
+                {name} <ChevronRightIcon className="h-6 w-6" />{" "}
+                {identifierUserName ? identifierUserName : identifier.userName}
+              </div>
+            ) : (
+              <div className="font-medium text-slate-100">{latestUserName}</div>
+            )}
             {timestamp ? (
               <p className="text-xs mainText">
                 {new Date(timestamp?.toDate()).toLocaleString()}
@@ -102,6 +143,12 @@ const Post = ({
           </div>
         </div>
         <p className="pt-4 mainText">{message}</p>
+        {/* open popper Btn */}
+        {session.user.email == postEmail && (
+          <div className="mainText absolute top-6 right-2">
+            <DeletePopper postId={id} />
+          </div>
+        )}
       </div>
       {postImage && (
         <div className="relative h-56 md:h-[400px] bg-transparent border-x-2 ">
@@ -176,7 +223,7 @@ const Post = ({
         >
           <img
             className="rounded-full p-1"
-            src={session.user.image}
+            src={profileImg ? profileImg : session.user.image}
             width={50}
             height={50}
             alt=""

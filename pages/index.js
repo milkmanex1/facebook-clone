@@ -5,22 +5,43 @@ import Login from "../components/Login";
 import Sidebar from "../components/Sidebar";
 import Feed from "../components/Feed";
 import InputBox from "../components/InputBox";
-import Widgets from "../components/Widgets";
-import { useState } from "react";
+import Contacts from "../components/Contacts";
+import { useState, useEffect, useContext } from "react";
+import AppContext from "../components/AppContext";
+import { doc, getDoc, setDoc } from "firebase/firestore";
+import { db } from "../firebase";
 
 export default function Home() {
-  const { data: session } = useSession();
-  //   console.log(session);
+  const { backgrounds, bgIndex } = useContext(AppContext);
+  const { data: session, status } = useSession();
 
-  const backgrounds = [
-    { id: 1, src: "/images/orion-nebula.jpg" },
-    { id: 2, src: "/images/green.jpg" },
-    { id: 5, src: "/images/galaxy.jpg" },
-    { id: 5, src: "/images/dark.jpg" },
-    { id: 5, src: "/images/darkwavy.jpg" },
-  ];
+  const [email, setEmail] = useState(null);
+  //stuff to pull from firebase
+  const { profileImg, setProfileImg, userName, setUserName } =
+    useContext(AppContext);
 
-  const [bgIndex, setBgIndex] = useState(0);
+  //pull data from firebase
+  async function getInfo() {
+    if (email) {
+      console.log("getting Info on index page");
+      const profileRef = doc(db, "profiles", email);
+      const snap = await getDoc(profileRef);
+      if (snap.exists()) {
+        setProfileImg(snap.data().profileImg);
+        setUserName(snap.data().userName);
+        console.log("Info obtained");
+      }
+    }
+  }
+  useEffect(() => {
+    if (status === "authenticated") {
+      setEmail(session.user.email);
+    }
+  }, [status]);
+
+  useEffect(() => {
+    getInfo();
+  }, [email]);
 
   if (!session) return <Login />;
   return (
@@ -35,18 +56,13 @@ export default function Home() {
         <title>Spacebook</title>
       </Head>
 
-      <Header
-        backgrounds={backgrounds}
-        bgIndex={bgIndex}
-        setBgIndex={setBgIndex}
-      ></Header>
+      <Header></Header>
 
       <main className="flex">
         {/* Sidebar */}
         <Sidebar></Sidebar>
         <Feed></Feed>
-
-        <Widgets />
+        <Contacts />
       </main>
     </div>
   );

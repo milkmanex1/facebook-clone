@@ -3,7 +3,7 @@ import Image from "next/image";
 import { useSession } from "next-auth/react";
 import { EmojiHappyIcon } from "@heroicons/react/outline";
 import { CameraIcon, VideoCameraIcon } from "@heroicons/react/solid";
-import AppContext from "../components/AppContext";
+import AppContext from "../AppContext";
 
 import {
   db,
@@ -13,15 +13,16 @@ import {
   serverTimestamp,
   storage,
   ref,
-} from "../firebase";
+} from "../../firebase";
 import {
   uploadBytesResumable,
   getDownloadURL,
   uploadString,
 } from "firebase/storage";
+//ProfileInputBox is used instead of InputBox to write to other ppl's wall
 
 import { doc, setDoc, getDocs } from "firebase/firestore";
-const InputBox = () => {
+const ProfileInputBox = ({ identifier }) => {
   const { data: session, status } = useSession();
 
   const { profileImg, userName } = useContext(AppContext);
@@ -54,7 +55,7 @@ const InputBox = () => {
         likes: 0,
         comments: [],
         shares: 0,
-
+        receiverEmail: identifier.email,
         timestamp: serverTimestamp(),
       }).then((docSN) => {
         if (imageToPost) {
@@ -119,9 +120,7 @@ const InputBox = () => {
             type="text"
             ref={inputRef}
             className="rounded-full h-12 bg-gray-100 flex-grow px-5 focus:outline-none"
-            placeholder={`What's on your mind, ${
-              userName ? userName : session.user.name
-            }?`}
+            placeholder={`Write something to ${identifier.userName}...`}
           />
           <button className="hidden" type="submit" onClick={sendPost}>
             Submit
@@ -141,10 +140,10 @@ const InputBox = () => {
       </div>
 
       <div className="flex justify-evenly p-3 border-t-0 ">
-        <div className="inputIcon">
+        {/* <div className="inputIcon">
           <VideoCameraIcon className="h-7 text-red-500"></VideoCameraIcon>
           <p className="text-xs sm:text-sm xl:text-base mainText">Live Video</p>
-        </div>
+        </div> */}
         <div
           className="inputIcon"
           onClick={() => {
@@ -179,7 +178,7 @@ const InputBox = () => {
   );
 };
 
-export default InputBox;
+export default ProfileInputBox;
 
 //Notes: uploadString allows the image to be uploaded to the storage, but will not be appended to the post
 

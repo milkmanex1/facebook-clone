@@ -39,8 +39,11 @@ const About = ({ identifier }) => {
   const [profileImg, setProfileImg] = useState(null);
   const [userName, setUserName] = useState(null);
 
+  const [openUserNameInput, setOpenUserNameInput] = useState(false);
+
   const coverImgRef = useRef(null);
   const profileImgRef = useRef(null);
+  const userNameRef = useRef(null);
 
   function sendProfileImg(e) {
     console.log("start sending profile img..");
@@ -64,7 +67,6 @@ const About = ({ identifier }) => {
       });
     }
   }
-
   function sendCoverImg(e) {
     console.log("start sending cover image");
     if (e.target.files[0]) {
@@ -94,6 +96,36 @@ const About = ({ identifier }) => {
       }
     }
   }
+  async function changeUserName(e) {
+    e.preventDefault();
+    if (!userNameRef.current.value) {
+      return;
+    } else {
+      //if post with user's email exists, update it
+      const postRef = doc(db, "profiles", session.user.email);
+      const snap = await getDoc(postRef);
+      if (snap.exists()) {
+        updateDoc(postRef, {
+          userName: userNameRef.current.value,
+        });
+        console.log("updating...");
+      }
+      //if post with user's email doesnt exist, create it
+      else {
+        const allPostsRef = collection(db, "profiles");
+        await setDoc(doc(allPostsRef, session.user.email), {
+          userName: userNameRef.current.value,
+        });
+      }
+      if (userNameRef) {
+        userNameRef.current.value = "";
+      }
+      //get the info from firebase and reload page
+      console.log("after update!");
+      getOtherInfo();
+      setOpenUserNameInput(false);
+    }
+  }
   useEffect(() => {
     //whenever user successfully uploads a new cover img, pull it from firebase
     getCoverImage();
@@ -115,6 +147,7 @@ const About = ({ identifier }) => {
         const newProfileImg = snap.data().profileImg;
         setProfileImg(newProfileImg);
         setUserName(snap.data().userName);
+        // console.log(`userName is: ${userName}`);
       }
     }
   }
@@ -149,7 +182,7 @@ const About = ({ identifier }) => {
         <div className="lg:flex lg:gap-x-4 ">
           <div className="flex justify-center">
             <img
-              className=" border-4 border-slate-100 rounded-full h-36 w-36 object-cover object-center min-w-36 cursor-pointer"
+              className=" border-4 border-slate-100 rounded-full h-40 w-40 object-cover object-center min-w-36 cursor-pointer"
               src={profileImg ? profileImg : "/images/emptyProfile.jpg"}
               alt=""
               onClick={() => {
@@ -164,25 +197,66 @@ const About = ({ identifier }) => {
             />
           </div>
           <div className="text-slate-100 text-4xl font-semibold text-center flex flex-col lg:justify-center">
-            {userName}
+            {userName ? userName : identifier.userName}
           </div>
         </div>
         {/*---- buttons---- */}
-        <div className=" text-white text-xl flex justify-center lg:pr-16">
+        <div className=" text-white text-xl flex justify-center gap-x-4 lg:pr-16">
           <div className="lg:flex lg:flex-col justify-center ">
-            <p className="p-2 rounded-xl cursor-pointer border-transparent border-2 hover:border-slate-100 hover:border-2 hover:bg-white/20">
-              Add to Story
-            </p>
+            {!openUserNameInput && session.user.email == email && (
+              <p
+                className="simpleBtn"
+                onClick={() => setOpenUserNameInput(true)}
+              >
+                Change username
+              </p>
+            )}
+            {openUserNameInput && (
+              <form className="flex flex-col">
+                <input
+                  type="text"
+                  ref={userNameRef}
+                  className="rounded-md bg-gray-100 flex-grow px-5 focus:outline-none text-black py-2"
+                  maxLength="20"
+                  placeholder={`Enter new User Name`}
+                />
+                <div className="flex justify-end gap-x-4 m-2">
+                  <button
+                    type="button"
+                    className="simpleBtn"
+                    onClick={() => {
+                      setOpenUserNameInput(false);
+                    }}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    className="hidden"
+                    onClick={changeUserName}
+                  ></button>
+                  <button
+                    className="simpleBtn"
+                    type="button"
+                    onClick={changeUserName}
+                  >
+                    Save
+                  </button>
+                </div>
+              </form>
+            )}
           </div>
           <div className=" lg:flex lg:flex-col justify-center ">
-            <p
-              className="simpleBtn"
-              onClick={() => {
-                coverImgRef.current.click();
-              }}
-            >
-              Edit Cover Image
-            </p>
+            {session.user.email == email && (
+              <p
+                className="simpleBtn"
+                onClick={() => {
+                  coverImgRef.current.click();
+                }}
+              >
+                Edit Cover Image
+              </p>
+            )}
             <input
               ref={coverImgRef}
               onChange={sendCoverImg}

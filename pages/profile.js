@@ -8,26 +8,45 @@ import Login from "../components/Login";
 import ProfileContent from "../components/profile/ProfileContent";
 
 import About from "../components/profile/About";
-import { useState } from "react";
 
-const backgrounds = [
-  { id: 1, src: "/images/orion-nebula.jpg" },
-  { id: 2, src: "/images/green.jpg" },
-  { id: 5, src: "/images/galaxy.jpg" },
-  { id: 5, src: "/images/dark.jpg" },
-  { id: 5, src: "/images/darkwavy.jpg" },
-];
+import { useState, useContext } from "react";
+import AppContext from "../components/AppContext";
+import { doc, getDoc, setDoc } from "firebase/firestore";
+import { db } from "../firebase";
 
 const profile = () => {
   const { data: session, status } = useSession();
-  //   const [identifier, setIdentifier] = useState();
+  const { backgrounds, bgIndex } = useContext(AppContext);
 
-  //get the identifier object from the specific post, when user clicks on the profile img. Pass as a prop into the required components
+  //get the identifier object containing info about user BELONGING to that POST, from the specific post, when user clicks on the profile img. Pass as a prop into the required components
   const router = useRouter();
   const identifier = router.query;
-  console.log(identifier);
 
-  const [bgIndex, setBgIndex] = useState(0);
+  //pull current user info from firebase (have to pull in both index and profile pages)
+  const [email, setEmail] = useState(null);
+  const { profileImg, setProfileImg, userName, setUserName } =
+    useContext(AppContext);
+
+  async function getInfo() {
+    if (email) {
+      console.log("getting Info on profile page");
+      const profileRef = doc(db, "profiles", email);
+      const snap = await getDoc(profileRef);
+      if (snap.exists()) {
+        setProfileImg(snap.data().profileImg);
+        setUserName(snap.data().userName);
+      }
+    }
+  }
+  useEffect(() => {
+    if (status === "authenticated") {
+      setEmail(session.user.email);
+    }
+  }, [status]);
+  useEffect(() => {
+    getInfo();
+  }, [email]);
+
   if (status !== "authenticated") {
     return <Login></Login>;
   }
@@ -43,11 +62,7 @@ const profile = () => {
         <Head>
           <title>Spacebook</title>
         </Head>
-        <Header
-          backgrounds={backgrounds}
-          bgIndex={bgIndex}
-          setBgIndex={setBgIndex}
-        ></Header>
+        <Header></Header>
         <main className="h-full overflow-y-auto scrollbar-hide">
           <About identifier={identifier}></About>
           <ProfileContent identifier={identifier}></ProfileContent>
