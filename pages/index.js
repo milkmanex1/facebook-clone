@@ -6,6 +6,7 @@ import Sidebar from "../components/Sidebar";
 import Feed from "../components/Feed";
 import InputBox from "../components/InputBox";
 import Contacts from "../components/Contacts";
+import Chat from "../components/Chat";
 import { useState, useEffect, useContext } from "react";
 import AppContext from "../components/AppContext";
 import { doc, getDoc, setDoc } from "firebase/firestore";

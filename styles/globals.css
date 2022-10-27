@@ -50,6 +50,19 @@
   @apply p-2 flex rounded-lg cursor-pointer gap-x-2 text-slate-100 border-transparent border-2 hover:border-slate-100 hover:border-2 hover:bg-white/20 active:bg-blue-500;
 }
 
+/**--------------- chat--------------- */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: rgb(221, 221, 221);
+}
+::-webkit-scrollbar-thumb {
+  background: rgb(162, 162, 162);
+  border-radius: 25px;
+}
+::-webkit-scrollbar-thumb:hover {
+}
 @layer base {
   @font-face {
     font-family: "Alien Ravager";

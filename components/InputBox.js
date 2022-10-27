@@ -5,6 +5,9 @@ import { EmojiHappyIcon } from "@heroicons/react/outline";
 import { CameraIcon, VideoCameraIcon } from "@heroicons/react/solid";
 import AppContext from "../components/AppContext";
 
+import EmojiPopper from "./EmojiPopper";
+import InputEmoji from "react-input-emoji";
+
 import {
   db,
   addDoc,
@@ -30,6 +33,7 @@ const InputBox = () => {
   const filepickerRef = useRef(null);
   const [imageToPost, setImageToPost] = useState(null);
   const [testImage, setTestImage] = useState(null);
+  const [input, setInput] = useState("");
 
   function testFunction() {
     getDocs(colRef).then((snapshot) => {
@@ -117,6 +121,8 @@ const InputBox = () => {
         <form className="flex flex-1">
           <input
             type="text"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
             ref={inputRef}
             className="rounded-full h-12 bg-gray-100 flex-grow px-5 focus:outline-none"
             placeholder={`What's on your mind, ${
@@ -141,39 +147,45 @@ const InputBox = () => {
       </div>
 
       <div className="flex justify-evenly p-3 border-t-0 ">
-        <div className="inputIcon">
-          <VideoCameraIcon className="h-7 text-red-500"></VideoCameraIcon>
-          <p className="text-xs sm:text-sm xl:text-base mainText">Live Video</p>
+        <div className="flex-grow">
+          <div className="inputIcon">
+            <VideoCameraIcon className="h-7 text-red-500"></VideoCameraIcon>
+            <p className="text-xs sm:text-sm xl:text-base mainText">
+              Live Video
+            </p>
+          </div>
         </div>
-        <div
-          className="inputIcon"
-          onClick={() => {
-            filepickerRef.current.click();
-          }}
-        >
-          <CameraIcon className="h-7 text-green-500"></CameraIcon>
-          <p className="text-xs sm:text-sm xl:text-base mainText">
-            Photo/Video
-          </p>
-          <input
-            ref={filepickerRef}
-            onChange={addImageToPost}
-            type="file"
-            hidden
-          />
+        <div className="flex-grow">
+          <div
+            className="inputIcon"
+            onClick={() => {
+              filepickerRef.current.click();
+            }}
+          >
+            <CameraIcon className="h-7 text-green-500"></CameraIcon>
+            <p className="text-xs sm:text-sm xl:text-base mainText">
+              Photo/Video
+            </p>
+            <input
+              ref={filepickerRef}
+              onChange={addImageToPost}
+              type="file"
+              hidden
+            />
+          </div>
         </div>
-        <div className="inputIcon" onClick={() => console.log(session)}>
+        <EmojiPopper input={input} setInput={setInput}></EmojiPopper>
+
+        {/* <div className="inputIcon">
           <EmojiHappyIcon className="h-7 text-yellow-300"></EmojiHappyIcon>
           <p className="text-xs sm:text-sm xl:text-base mainText">
             Feeling/Activity
           </p>
-        </div>
-        {/* <button
-          className="rounded-md bg-slate-400 text-white p-1 text-sm"
-          onClick={testFunction}
-        >
-          Test Button
-        </button> */}
+
+          <div className="absolute z-50 top-36">
+            <Picker data={data} onEmojiSelect={console.log} />
+          </div>
+        </div> */}
       </div>
     </div>
   );

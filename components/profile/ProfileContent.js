@@ -95,6 +95,7 @@ const ProfileContent = ({ identifier }) => {
         setIntroHead(snap.data().introHead);
         setIntroInfo(snap.data().introInfo);
         setUserName(snap.data().userName);
+        // console.log(`username is now: ${userName}`);
       }
     }
   }
@@ -217,7 +218,7 @@ const ProfileContent = ({ identifier }) => {
 
         <div className="text-white p-4  border-2 border-white rounded-xl mt-4 blurryBackground">
           <p className="font-semibold text-4xl ">Posts</p>
-          <p>By {userName}</p>
+          <p>By {userName ? userName : identifier.userName}</p>
         </div>
         <ProfilePosts thisEmail={email} identifier={identifier}></ProfilePosts>
       </div>

@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState, useContext } from "react";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
 import { EmojiHappyIcon } from "@heroicons/react/outline";
+import EmojiPopper from "../EmojiPopper";
 import { CameraIcon, VideoCameraIcon } from "@heroicons/react/solid";
 import AppContext from "../AppContext";
 
@@ -26,7 +27,7 @@ const ProfileInputBox = ({ identifier }) => {
   const { data: session, status } = useSession();
 
   const { profileImg, userName } = useContext(AppContext);
-
+  const [input, setInput] = useState("");
   const inputRef = useRef(null);
   const filepickerRef = useRef(null);
   const [imageToPost, setImageToPost] = useState(null);
@@ -118,6 +119,8 @@ const ProfileInputBox = ({ identifier }) => {
         <form className="flex flex-1">
           <input
             type="text"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
             ref={inputRef}
             className="rounded-full h-12 bg-gray-100 flex-grow px-5 focus:outline-none"
             placeholder={`Write something to ${identifier.userName}...`}
@@ -161,12 +164,13 @@ const ProfileInputBox = ({ identifier }) => {
             hidden
           />
         </div>
-        <div className="inputIcon" onClick={() => console.log(session)}>
+        <EmojiPopper input={input} setInput={setInput}></EmojiPopper>
+        {/* <div className="inputIcon" onClick={() => console.log(session)}>
           <EmojiHappyIcon className="h-7 text-yellow-300"></EmojiHappyIcon>
           <p className="text-xs sm:text-sm xl:text-base mainText">
             Feeling/Activity
           </p>
-        </div>
+        </div> */}
         {/* <button
           className="rounded-md bg-slate-400 text-white p-1 text-sm"
           onClick={testFunction}
