@@ -40,7 +40,7 @@ const stories = [
     profile: "/images/jinPingDp.jpg",
   },
 ];
-
+const Testing = ["cuckoobird"];
 const Stories = () => {
   // const [profileInfo, setProfileInfo] = useState([]);
   // async function getProfiles() {
