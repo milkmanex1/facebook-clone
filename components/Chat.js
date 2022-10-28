@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
 import { XIcon, PaperAirplaneIcon } from "@heroicons/react/solid";
 import { FormControl, InputLabel, Input } from "@mui/material";
+import ChatEmojiPopper from "./ChatEmojiPopper";
 import { Button } from "@mui/material";
 import { useSession } from "next-auth/react";
 import AppContext from "../components/AppContext";
@@ -192,7 +193,8 @@ const Chat = ({ setIsChatOpen, recieverInfo }) => {
         })}
       </div>
       {/* //? -----------input ------------------ */}
-      <form className="absolute bottom-2 w-full px-2">
+
+      <form className="absolute bottom-2 w-11/12 px-2">
         <FormControl fullWidth={true}>
           <InputLabel>Enter a message</InputLabel>
           <Input
@@ -200,8 +202,8 @@ const Chat = ({ setIsChatOpen, recieverInfo }) => {
             placeholder="type something..."
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            multiline={true}
-            maxRows={4}
+            // multiline={true}
+            // maxRows={4}
           />
           <Button
             size="small"
@@ -214,6 +216,9 @@ const Chat = ({ setIsChatOpen, recieverInfo }) => {
           </Button>
         </FormControl>
       </form>
+      <div className="absolute right-0">
+        <ChatEmojiPopper input={input} setInput={setInput} />
+      </div>
     </div>
   );
 };

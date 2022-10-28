@@ -9,7 +9,7 @@ import Contacts from "../components/Contacts";
 import Chat from "../components/Chat";
 import { useState, useEffect, useContext } from "react";
 import AppContext from "../components/AppContext";
-import { doc, getDoc, setDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc, collection } from "firebase/firestore";
 import { db } from "../firebase";
 
 export default function Home() {
@@ -31,8 +31,18 @@ export default function Home() {
         setProfileImg(snap.data().profileImg);
         setUserName(snap.data().userName);
         console.log("Info obtained");
+      } else {
+        console.log("profile does not yet exist in database");
+        createProfile();
       }
     }
+  }
+  async function createProfile() {
+    const allPostsRef = collection(db, "profiles");
+    await setDoc(doc(allPostsRef, session.user.email), {
+      userName: session.user.name,
+      profileImg: session.user.image,
+    });
   }
   useEffect(() => {
     if (status === "authenticated") {
