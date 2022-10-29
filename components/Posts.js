@@ -20,6 +20,7 @@ const Posts = () => {
         const image = post.data().image;
         const postImage = post.data().postImage;
         const likes = post.data().likes;
+        const dislikes = post.data().dislikes;
         const shares = post.data().shares;
         const comments = post.data().comments;
         const id = post.id;
@@ -35,6 +36,7 @@ const Posts = () => {
                 image,
                 postImage,
                 likes,
+                dislikes,
                 shares,
                 comments,
                 id,
