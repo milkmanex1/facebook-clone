@@ -10,6 +10,9 @@
 .inputIcon {
   @apply flex items-center space-x-1 hover:bg-white/40 hover:text-blue-500 flex-grow justify-center p-2 rounded-xl cursor-pointer;
 }
+.inputIconDislike {
+  @apply flex items-center space-x-1 hover:bg-white/40 hover:text-red-500 flex-grow justify-center p-2 rounded-xl cursor-pointer;
+}
 
 /*------for the Posts----------*/
 /* .postSides {

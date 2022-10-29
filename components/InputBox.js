@@ -55,7 +55,8 @@ const InputBox = () => {
         name: userName ? userName : session.user.name,
         email: session.user.email,
         image: profileImg ? profileImg : session.user.image,
-        likes: 0,
+        likes: [],
+        dislikes: [],
         comments: [],
         shares: 0,
 
@@ -164,7 +165,7 @@ const InputBox = () => {
           >
             <CameraIcon className="h-7 text-green-500"></CameraIcon>
             <p className="text-xs sm:text-sm xl:text-base mainText">
-              Photo/Video
+              Photo / Gif
             </p>
             <input
               ref={filepickerRef}

@@ -155,7 +155,7 @@ const ProfileInputBox = ({ identifier }) => {
         >
           <CameraIcon className="h-7 text-green-500"></CameraIcon>
           <p className="text-xs sm:text-sm xl:text-base mainText">
-            Photo/Video
+            Photo / Gif
           </p>
           <input
             ref={filepickerRef}

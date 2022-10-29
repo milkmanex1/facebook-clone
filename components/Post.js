@@ -9,16 +9,23 @@ import {
   addDoc,
   getDoc,
   arrayUnion,
+  FieldValue,
 } from "firebase/firestore";
 import Image from "next/image";
 import { useCollection } from "react-firebase-hooks/firestore";
 import DeletePopper from "./profile/DeletePopper";
 
 import { colRef, db } from "../firebase";
-import { ChatAltIcon, ShareIcon, ThumbUpIcon } from "@heroicons/react/outline";
+import {
+  ChatAltIcon,
+  ShareIcon,
+  ThumbUpIcon,
+  ThumbDownIcon,
+} from "@heroicons/react/outline";
 import { DotsVerticalIcon, ChevronRightIcon } from "@heroicons/react/solid";
 import { useSession } from "next-auth/react";
 import AppContext from "../components/AppContext";
+import Tooltip from "@mui/material/Tooltip";
 
 const Post = ({
   name,
@@ -29,6 +36,7 @@ const Post = ({
   image,
   postImage,
   likes,
+  dislikes,
   shares,
   comments,
   id,
@@ -37,7 +45,7 @@ const Post = ({
   const [showCommentInput, setShowCommentInput] = useState(false);
   const [showComments, setShowComments] = useState(false);
   const commentRef = useRef(null);
-
+  const [likerNames, setLikerNames] = useState([]);
   const { data: session, status } = useSession();
   //info about current user, not the guy whose page is being viewed
   const { profileImg, userName } = useContext(AppContext);
@@ -46,12 +54,74 @@ const Post = ({
   const [latestUserName, setLatestUserName] = useState(null);
   const [latestProfileImg, setLatestProfileImg] = useState(null);
 
-  function likePost(id) {
-    const postRef = doc(db, "posts", id);
-    updateDoc(postRef, {
-      likes: likes + 1,
+  async function likePost(id) {
+    const docRef = doc(db, "posts", id);
+    //check if document 'likes' already contains user's email
+    getDoc(docRef).then((doc) => {
+      const likes = doc.data().likes;
+      //if user liked it before, unlike it
+      if (likes.find((e) => e.email === session.user.email)) {
+        updateDoc(docRef, {
+          likes: likes.filter((likes) => likes.email !== session.user.email),
+        });
+      } else {
+        updateDoc(docRef, {
+          likes: arrayUnion({
+            email: session.user.email,
+          }),
+        });
+      }
     });
   }
+  async function dislikePost(id) {
+    const docRef = doc(db, "posts", id);
+    //check if document 'dislikes' already contains user's email
+    getDoc(docRef).then((doc) => {
+      //if no dislikes field exists
+      const dislikes = doc.data().dislikes;
+      if (!dislikes) {
+        updateDoc(docRef, {
+          dislikes: arrayUnion({
+            email: session.user.email,
+          }),
+        });
+        return;
+      }
+      //if user disliked it before, un-dislike it
+      if (dislikes.find((e) => e.email === session.user.email)) {
+        updateDoc(docRef, {
+          dislikes: dislikes.filter(
+            (dislikes) => dislikes.email !== session.user.email
+          ),
+        });
+      } else {
+        updateDoc(docRef, {
+          dislikes: arrayUnion({
+            email: session.user.email,
+          }),
+        });
+      }
+    });
+  }
+
+  async function pullName(email) {
+    if (email) {
+      const profileRef = doc(db, "profiles", email);
+      const snap = await getDoc(profileRef);
+      if (snap.exists()) {
+        const name = snap.data().userName;
+
+        setLikerNames((likerNames) => [...likerNames, name]);
+      }
+    }
+  }
+  function getLikerName(likes) {
+    const likerEmails = likes.map((liker) => liker.email);
+    likerEmails.forEach((likerEmail) => {
+      pullName(likerEmail);
+    });
+  }
+
   function openComments() {
     setShowCommentInput(!showCommentInput);
     setShowComments(!showComments);
@@ -155,20 +225,62 @@ const Post = ({
           <Image src={postImage} objectFit="cover" layout="fill"></Image>
         </div>
       )}
-      {/* post stats */}
+      {/* --------Post Stats----------------- */}
       <div className="blurryBackground flex justify-between items-center  text-slate-200 border-2 border-y-0 px-3 py-3">
-        {likes > 0 && (
-          <div className="w-auto flex space-x-1">
-            <img
-              className="cursor-pointer"
-              src="/images/fb thumbs up icon.png"
-              alt="Likes"
-              width={30}
-              height={30}
-            />
-            <p className="text-xs sm:text-base mainText">{likes}</p>
-          </div>
-        )}
+        <div className="flex space-x-4">
+          {likes.length > 0 && (
+            <div className="w-auto flex space-x-1">
+              <p>
+                <Tooltip
+                  title={
+                    <div className=" text-xs sm:text-base mainText flex flex-col">
+                      {likerNames.map((name, i) => {
+                        return <div key={i}>{name}</div>;
+                      })}
+                    </div>
+                  }
+                >
+                  <img
+                    className="cursor-pointer"
+                    src="/images/fb thumbs up icon.png"
+                    alt="Likes"
+                    width={30}
+                    height={30}
+                    onMouseEnter={() => getLikerName(likes)}
+                    onMouseLeave={() => setLikerNames([])}
+                  />
+                </Tooltip>
+              </p>
+              <p className="text-xs sm:text-base mainText">{likes.length}</p>
+            </div>
+          )}
+          {dislikes?.length > 0 && (
+            <div className="w-auto flex space-x-1">
+              <p>
+                <Tooltip
+                  title={
+                    <div className=" text-xs sm:text-base mainText flex flex-col">
+                      {likerNames.map((name, i) => {
+                        return <div key={i}>{name}</div>;
+                      })}
+                    </div>
+                  }
+                >
+                  <img
+                    className="cursor-pointer"
+                    src="/images/thumbs down.png"
+                    alt="Likes"
+                    width={30}
+                    height={30}
+                    onMouseEnter={() => getLikerName(dislikes)}
+                    onMouseLeave={() => setLikerNames([])}
+                  />
+                </Tooltip>
+              </p>
+              <p className="text-xs sm:text-base mainText">{dislikes.length}</p>
+            </div>
+          )}
+        </div>
         <div className="flex space-x-4">
           {Array.from(comments).length > 0 && (
             <div className="flex space-x-1">
@@ -207,9 +319,9 @@ const Post = ({
           <ChatAltIcon className="h-4" />
           <p className="text-xs sm:text-base mainText">Comment</p>
         </div>
-        <div className="inputIcon">
-          <ShareIcon className="h-4" />
-          <p className="text-xs sm:text-base mainText">Share</p>
+        <div className="inputIconDislike" onClick={() => dislikePost(id)}>
+          <ThumbDownIcon className="h-4" />
+          <p className="text-xs sm:text-base mainText">Dislike</p>
         </div>
       </div>
       {/*------------------ Comments Section*--------------/}
