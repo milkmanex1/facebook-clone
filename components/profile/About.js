@@ -169,9 +169,9 @@ const About = ({ identifier }) => {
   return (
     <div>
       {/* cover image */}
-      <div className=" relative h-96 flex justify-center">
+      <div className=" relative h-96 flex justify-center ">
         <img
-          className="absolute w-11/12 h-full object-cover rounded-xl lg:mx-10 xl:w-8/12 "
+          className="whiteShadow absolute w-11/12 h-full object-cover rounded-xl lg:mx-10 xl:w-8/12 border-2 border-slate-100 "
           src={displayCoverImg ? displayCoverImg : "/images/emptyBanner.jpg"}
           alt="cover image here"
         />

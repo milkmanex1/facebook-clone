@@ -44,6 +44,9 @@
 .simpleBtn {
   @apply bg-slate-400/50 p-2 rounded-xl cursor-pointer border-transparent border-2 hover:border-slate-100  hover:bg-blue-500;
 }
+.whiteShadow {
+  box-shadow: 0 0 20px white;
+}
 
 /**--------------- popper--------------- */
 /* .popperBtn {

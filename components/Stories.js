@@ -15,32 +15,37 @@ const stories = [
   {
     name: "Steven Lim",
     email: "StevenLimKorKor34@gmail.com",
-    src: "/images/stevenStory.jpg",
+    src: "/images/stevenCry.jpg",
     profile: "/images/Stevenlollipop1.jpeg",
+    video: "https://www.youtube.com/watch?v=POm_WkxRbnU",
   },
   {
     name: "Kim Jong Un",
     src: "/images/kim6.jpeg",
     profile: "/images/kim5.jpg",
+    video: "https://www.youtube.com/watch?v=dh3z1kYmMzQ",
   },
   {
     name: "Najib Razak",
     email: "najibRazak6745@gmail.com",
     src: "/images/najibSnooze.jpg",
     profile: "/images/najib-profile.jpg",
+    video: "https://www.dailymotion.com/video/x7vri8t",
   },
   {
     name: "Justin Bieber",
     src: "/images/bieberFace.jpg",
     profile: "/images/justinProfile.jpg",
+    video: "https://www.youtube.com/watch?v=7D5sxxXYtyw",
   },
   {
     name: "Xi Jin Ping",
     src: "/images/xpBDSM2.jpg",
     profile: "/images/jinPingDp.jpg",
+    video: "https://www.youtube.com/shorts/pR2pD4mQHc8",
   },
 ];
-const Testing = ["cuckoobird"];
+
 const Stories = () => {
   // const [profileInfo, setProfileInfo] = useState([]);
   // async function getProfiles() {
@@ -73,6 +78,7 @@ const Stories = () => {
             name={story.name}
             src={story.src}
             profile={story.profile}
+            video={story.video}
           ></StoryCard>
         );
       })}
