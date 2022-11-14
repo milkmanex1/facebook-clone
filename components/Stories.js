@@ -40,9 +40,9 @@ const stories = [
   },
   {
     name: "Xi Jin Ping",
-    src: "/images/xpBDSM2.jpg",
+    src: "/images/jinpingeating.jpg",
     profile: "/images/jinPingDp.jpg",
-    video: "https://www.youtube.com/shorts/pR2pD4mQHc8",
+    video: "https://www.youtube.com/watch?v=r5qZoT6bbJo",
   },
 ];
 

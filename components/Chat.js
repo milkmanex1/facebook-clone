@@ -39,6 +39,26 @@ const messageVariants = {
     transition: { ease: "easeInOut" },
   },
 };
+const chatBoxVariants = {
+  hidden: {
+    x: "-30vw",
+    opacity: 0,
+  },
+  visible: {
+    x: 0,
+    opacity: 1,
+    scale: 1,
+
+    transition: {
+      //   duration: 0.5,
+    },
+  },
+  exit: {
+    opacity: 0,
+    scale: 0.5,
+    transition: { ease: "easeInOut" },
+  },
+};
 
 const Chat = ({ setIsChatOpen, recieverInfo }) => {
   const { data: session, status } = useSession();
@@ -119,7 +139,13 @@ const Chat = ({ setIsChatOpen, recieverInfo }) => {
   }
 
   return (
-    <div className="absolute right-16 bottom-0 h-96 w-72 bg-white rounded-t-lg">
+    <motion.div
+      className="absolute right-16 bottom-0 h-96 w-72 bg-white rounded-t-lg"
+      variants={chatBoxVariants}
+      initial="hidden"
+      animate="visible"
+      exit="exit"
+    >
       {/* ------- HEADER ------ */}
       <div className="border-b-2 flex justify-between p-1 !w-full">
         <div>
@@ -219,7 +245,7 @@ const Chat = ({ setIsChatOpen, recieverInfo }) => {
       <div className="absolute right-0">
         <ChatEmojiPopper input={input} setInput={setInput} />
       </div>
-    </div>
+    </motion.div>
   );
 };
 

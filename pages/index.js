@@ -24,13 +24,13 @@ export default function Home() {
   //pull data from firebase
   async function getInfo() {
     if (email) {
-      console.log("getting Info on index page");
+      // //   console.log("getting Info on index page");
       const profileRef = doc(db, "profiles", email);
       const snap = await getDoc(profileRef);
       if (snap.exists()) {
         setProfileImg(snap.data().profileImg);
         setUserName(snap.data().userName);
-        console.log("Info obtained");
+        // // console.log("Info obtained");
       } else {
         console.log("profile does not yet exist in database");
         createProfile();
@@ -57,7 +57,7 @@ export default function Home() {
   if (!session) return <Login />;
   return (
     <div
-      className="h-screen overflow-hidden mainBg"
+      className="h-screen w-screen !overflow-hidden mainBg"
       style={{
         backgroundImage: `url(${backgrounds[bgIndex].src})`,
         backgroundSize: "cover",
@@ -69,7 +69,7 @@ export default function Home() {
 
       <Header></Header>
 
-      <main className="flex">
+      <main className="flex relative ">
         {/* Sidebar */}
         <Sidebar></Sidebar>
         <Feed></Feed>

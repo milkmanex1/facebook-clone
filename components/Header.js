@@ -4,6 +4,8 @@ import HeaderIcon from "./HeaderIcon.js";
 import { useSession, signOut } from "next-auth/react";
 import Link from "next/link";
 import Popper from "./Popper.js";
+import NotificationsPopper from "./NotificationsPopper";
+import { motion, AnimatePresence } from "framer-motion";
 
 import {
   BellIcon,
@@ -21,6 +23,21 @@ import {
   SearchIcon,
   ShoppingCartIcon,
 } from "@heroicons/react/outline";
+
+const variants = {
+  hover: {
+    scale: 1.2,
+    y: -3,
+    // textShadow: "0px 0px 8px rgb(255,255,255)",
+    // boxShadow: "0px 0px 8px rgb(255,255,255)",
+    // transition: {
+    //   yoyo: Infinity,
+    // },
+  },
+  //   tap: { rotate: [0, -30, 0], transition: { duration: 0.5 } },
+  tap: { scale: 0.9 },
+};
+
 const Header = () => {
   const { data: session, status } = useSession();
 
@@ -36,15 +53,17 @@ const Header = () => {
       <div className="flex items-center ">
         <Link href="/">
           {/* wrap it in <a> tags so the annoying error goes away */}
-          <a>
-            <Image
-              className="cursor-pointer "
-              src="/images/logo2-modified.png"
-              width={40}
-              height={40}
-              layout="fixed"
-            ></Image>
-          </a>
+          <motion.a variants={variants} whileHover="hover" whileTap="tap">
+            <div className="grid items-center">
+              <Image
+                className="cursor-pointer "
+                src="/images/logo2-modified.png"
+                width={48}
+                height={48}
+                layout="fixed"
+              ></Image>
+            </div>
+          </motion.a>
         </Link>
         <div className="flex ml-2 items-center rounded-full bg-gray-100 p-2">
           <SearchIcon className="h-6 text-gray-600 cursor-pointer" />
@@ -67,28 +86,15 @@ const Header = () => {
           <HeaderIcon Icon={FlagIcon}></HeaderIcon>
           <HeaderIcon Icon={PlayIcon}></HeaderIcon>
           <HeaderIcon Icon={ShoppingCartIcon}></HeaderIcon>
+
           <HeaderIcon Icon={UserGroupIcon}></HeaderIcon>
         </div>
       </div>
       {/* right */}
-      <div className="flex items-center gap-x-2 sm:space-x-1 justify-end">
-        {/* profile pic */}
-        {/* <Image
-          onClick={() => {}}
-          className="rounded-full cursor-pointer"
-          src={
-            session.user.image ? session.user.image : "/images/guest-icon.png"
-          }
-          height={40}
-          width={40}
-          layout="fixed"
-        ></Image> */}
-        {/* <p className="whitespace-nowrap font-semibold pr-3 text-slate-100">
-          {session.user.name}
-        </p> */}
+      <div className="flex items-center gap-x-2 sm:space-x-1 justify-end md:ml-16">
         <ViewGridIcon className="icon"></ViewGridIcon>
         <ChatIcon className="icon"></ChatIcon>
-        <BellIcon className="icon"></BellIcon>
+        <NotificationsPopper></NotificationsPopper>
         <Popper className="icon"></Popper>
       </div>
     </div>

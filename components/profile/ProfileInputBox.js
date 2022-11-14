@@ -6,15 +6,7 @@ import EmojiPopper from "../EmojiPopper";
 import { CameraIcon, VideoCameraIcon } from "@heroicons/react/solid";
 import AppContext from "../AppContext";
 
-import {
-  db,
-  addDoc,
-  deleteDoc,
-  colRef,
-  serverTimestamp,
-  storage,
-  ref,
-} from "../../firebase";
+import { db, addDoc, deleteDoc, colRef, storage, ref } from "../../firebase";
 import {
   uploadBytesResumable,
   getDownloadURL,
@@ -22,7 +14,20 @@ import {
 } from "firebase/storage";
 //ProfileInputBox is used instead of InputBox to write to other ppl's wall
 
-import { doc, setDoc, getDocs } from "firebase/firestore";
+import {
+  collection,
+  query,
+  orderBy,
+  updateDoc,
+  doc,
+  getDoc,
+  getDocs,
+  setDoc,
+  arrayUnion,
+  FieldValue,
+  serverTimestamp,
+} from "firebase/firestore";
+
 const ProfileInputBox = ({ identifier }) => {
   const { data: session, status } = useSession();
 
@@ -53,7 +58,8 @@ const ProfileInputBox = ({ identifier }) => {
         name: userName ? userName : session.user.name,
         email: session.user.email,
         image: profileImg ? profileImg : session.user.image,
-        likes: 0,
+        likes: [],
+        dislikes: [],
         comments: [],
         shares: 0,
         receiverEmail: identifier.email,
@@ -84,12 +90,52 @@ const ProfileInputBox = ({ identifier }) => {
             }
           );
         }
+        sendNotification("wall", docSN.id);
       });
 
       //clear the input
       inputRef.current.value = "";
+      setInput("");
     }
   }
+  async function checkAndSendNotification(type) {
+    //check if similar notification already exists-- use postId, senderEmail, and type
+    const querySnapshot = await getDocs(
+      collection(db, `profiles/${identifier.email}/notifications`)
+    );
+    let notifications = [];
+    querySnapshot.forEach((doc) => {
+      notifications.push({ ...doc.data() });
+    });
+    if (
+      notifications.find(
+        (e) =>
+          e.postId == id &&
+          e.senderEmail == session.user.email &&
+          e.type == type
+      )
+    ) {
+      console.log("notification exists");
+    } else {
+      console.log("notification not yet exist");
+      sendNotification(type);
+    }
+  }
+  function sendNotification(type, postId) {
+    //send Notification to the poster
+    const colRef = collection(db, `profiles/${identifier.email}/notifications`);
+
+    addDoc(colRef, {
+      senderEmail: session.user.email,
+      type: type,
+      seen: "false",
+      timestamp: serverTimestamp(),
+      postId: postId,
+      sender: userName,
+      senderImg: profileImg,
+    });
+  }
+
   //Need to use FileReader to display the image obtained from input type=image
   function addImageToPost(e) {
     const reader = new FileReader();

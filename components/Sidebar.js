@@ -14,6 +14,10 @@ import {
   DesktopComputerIcon,
   UsersIcon,
 } from "@heroicons/react/solid";
+import Scroll from "react-scroll";
+
+var ScrollLink = Scroll.Link;
+var Element = Scroll.Element;
 
 const Sidebar = () => {
   const { data: session, status } = useSession();
@@ -38,6 +42,7 @@ const Sidebar = () => {
       </Link>
 
       <SidebarRow Icon={UsersIcon} title="Friends"></SidebarRow>
+
       <SidebarRow Icon={UserGroupIcon} title="Groups"></SidebarRow>
       <SidebarRow Icon={ShoppingBagIcon} title="Marketplace"></SidebarRow>
       <SidebarRow Icon={DesktopComputerIcon} title="Watch"></SidebarRow>

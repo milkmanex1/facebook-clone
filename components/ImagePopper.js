@@ -7,17 +7,20 @@ import { LogoutIcon, SparklesIcon } from "@heroicons/react/solid";
 import ClickAwayListener from "@mui/base/ClickAwayListener";
 import Link from "next/link";
 import AppContext from "../components/AppContext";
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, useRef } from "react";
 import { motion } from "framer-motion";
+import { CameraIcon, VideoCameraIcon } from "@heroicons/react/solid";
+import StayCurrentLandscapeOutlinedIcon from "@mui/icons-material/StayCurrentLandscapeOutlined";
+import StayCurrentPortraitOutlinedIcon from "@mui/icons-material/StayCurrentPortraitOutlined";
 const style = {
   //   position: "absolute",
   //   top: 0,
   //   left: 0,
   position: "absolute",
   top: "1rem",
-  right: "-1rem",
-  width: "15rem",
-  height: "15rem",
+  right: "-8rem",
+  width: "12rem",
+  height: "8rem",
   padding: "1rem",
   //   bgcolor: "black",
   borderRadius: "0.5rem",
@@ -28,7 +31,7 @@ const style = {
 const variants = {
   hover: {
     // y: -5,
-    y: 3,
+    // y: -3,
     // textShadow: "0px 0px 8px rgb(255,255,255)",
     // boxShadow: "0px 0px 20px rgb(255,255,255)",
     // transition: {
@@ -39,8 +42,24 @@ const variants = {
   tap: { scale: 0.8 },
 };
 
-export default function SimplePopper({ backgrounds }) {
+export default function SimplePopper({
+  backgrounds,
+  setTestImage,
+  setImageToPost,
+  setImageShape,
+}) {
   const { data: session, status } = useSession();
+
+  function addImageToPost(e) {
+    const reader = new FileReader();
+    if (e.target.files[0]) {
+      reader.readAsDataURL(e.target.files[0]);
+      setTestImage(e.target.files[0]);
+    }
+    reader.onload = (readerEvent) => {
+      setImageToPost(readerEvent.target.result);
+    };
+  }
 
   //get required stuff from context
   const { changeBG, profileImg, userName } = useContext(AppContext);
@@ -57,6 +76,7 @@ export default function SimplePopper({ backgrounds }) {
 
   const open = Boolean(anchorEl);
   const id = open ? "simple-popper" : undefined;
+  const filepickerRef = useRef(null);
 
   //   useEffect(() => {
   //     console.log(`popper userName is: ${userName}`);
@@ -70,21 +90,18 @@ export default function SimplePopper({ backgrounds }) {
         whileHover="hover"
         whileTap="tap"
       >
-        <Image
-          onClick={handleClick}
-          aria-describedby={id}
-          className="rounded-full cursor-pointer"
-          src={
-            profileImg
-              ? profileImg
-              : session.user.image
-              ? session.user.image
-              : "/images/guest-icon.png"
-          }
-          height={50}
-          width={50}
-          layout="fixed"
-        ></Image>
+        <div className="inputIcon" onClick={handleClick}>
+          <CameraIcon className="h-7 text-green-500"></CameraIcon>
+          <p className="text-xs sm:text-sm xl:text-base mainText">
+            Photo / Gif
+          </p>
+          <input
+            ref={filepickerRef}
+            onChange={addImageToPost}
+            type="file"
+            hidden
+          />
+        </div>
       </motion.div>
       {/* <button
         className="text-white border-2 border-white"
@@ -97,51 +114,34 @@ export default function SimplePopper({ backgrounds }) {
       <Popper id={id} open={open} anchorEl={anchorEl}>
         {/* <Box sx={{ border: 1, p: 1, bgcolor: "background.paper" }}> */}
         <ClickAwayListener onClickAway={handleClickAway}>
-          <Box sx={style} className="border-2 border-white bg-slate-900">
+          <Box sx={style} className="border-2 border-white bg-slate-900 z-50 ">
             <div className="flex flex-col">
-              {/* profile  */}
-              <Link
-                href={{
-                  pathname: "/profile",
-                  query: {
-                    email: session.user.email,
-                    userName: session.user.name,
-                  },
+              {/* set image to landscape */}
+
+              <div
+                className="popperBtn"
+                onClick={() => {
+                  setImageShape("wide");
+                  filepickerRef.current.click();
                 }}
               >
-                <div className="popperBtn">
-                  <Image
-                    className="rounded-full cursor-pointer "
-                    src={
-                      profileImg
-                        ? profileImg
-                        : session.user.image
-                        ? session.user.image
-                        : "/images/guest-icon.png"
-                    }
-                    height={50}
-                    width={50}
-                    layout="fixed"
-                  ></Image>
-                  <div className="grid items-center text-lg font-semibold ">
-                    {userName ? userName : session.user.name}
-                  </div>
-                </div>
-              </Link>
-              {/* change background */}
-
-              <div className="popperBtn" onClick={changeBG}>
-                <SparklesIcon className="h-10 w-10 bg-slate-500 rounded-full p-2 "></SparklesIcon>
+                <StayCurrentLandscapeOutlinedIcon />
                 <div className="grid items-center text-md font-semibold ">
-                  New Background
+                  Landscape
                 </div>
               </div>
+              {/* set image to potrait */}
 
-              {/* logout */}
-              <div className="popperBtn" onClick={signOut}>
-                <LogoutIcon className="h-10 w-10 bg-slate-500 rounded-full p-2 "></LogoutIcon>
+              <div
+                className="popperBtn"
+                onClick={() => {
+                  setImageShape("tall");
+                  filepickerRef.current.click();
+                }}
+              >
+                <StayCurrentPortraitOutlinedIcon />
                 <div className="grid items-center text-md font-semibold ">
-                  Logout
+                  Portrait
                 </div>
               </div>
             </div>

@@ -12,6 +12,11 @@ import AppContext from "./AppContext";
 import { useState, useEffect, useContext } from "react";
 import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
+import { motion, AnimatePresence } from "framer-motion";
+
+const buttonVariants = {
+  tap: { scale: 0.8 },
+};
 
 const style = {
   //   position: "absolute",
@@ -59,12 +64,18 @@ export default function SimplePopper({ setInput, input }) {
 
   return (
     <div className="flex-grow">
-      <div className="inputIcon" onClick={handleClick} aria-describedby={id}>
+      <motion.div
+        className="inputIcon"
+        variants={buttonVariants}
+        whileTap="tap"
+        onClick={handleClick}
+        aria-describedby={id}
+      >
         <EmojiHappyIcon className="h-7 text-yellow-300"></EmojiHappyIcon>
         <p className="text-xs sm:text-sm xl:text-base mainText">
           Feeling/Activity
         </p>
-      </div>
+      </motion.div>
 
       <Popper id={id} open={open} anchorEl={anchorEl}>
         {/* <Box sx={{ border: 1, p: 1, bgcolor: "background.paper" }}> */}

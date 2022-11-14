@@ -5,6 +5,7 @@ import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import Image from "next/image";
 import ReactPlayer from "react-player";
+import { motion, AnimatePresence } from "framer-motion";
 
 const style = {
   position: "absolute",
@@ -20,6 +21,19 @@ const style = {
   borderRadius: "30px",
 };
 
+const variants = {
+  hover: {
+    scale: 1.05,
+    //   y: -3,
+    // textShadow: "0px 0px 8px rgb(255,255,255)",
+    // boxShadow: "0px 0px 8px rgb(255,255,255)",
+    // transition: {
+    //   yoyo: Infinity,
+    // },
+  },
+  //   tap: { rotate: [0, -30, 0], transition: { duration: 0.5 } },
+  // tap: { scale: 0.9 },
+};
 export default function BasicModal({ name, src, profile, video }) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
@@ -27,12 +41,14 @@ export default function BasicModal({ name, src, profile, video }) {
 
   return (
     <div>
-      <div
-        className=" custom-pulse relative h-14 w-14 md:h-20 md:w-20 lg:h-56 lg:w-32 cursor-pointer overflow-x p-3 transition-duration-200 transform ease-in hover:scale-105 "
+      <motion.div
+        className=" custom-pulse relative h-14 w-14 md:h-20 md:w-20 lg:h-56 lg:w-32 cursor-pointer overflow-x p-3 transition-duration-200 transform ease-in  "
         onClick={handleOpen}
+        variants={variants}
+        whileHover="hover"
       >
         <Image
-          className="absolute opacity-0 lg:opacity-100 rounded-full z-50 top-10 border-4 border-indigo-600 "
+          className="absolute opacity-0 lg:opacity-100 rounded-full z-30 top-10 border-4 border-indigo-600 "
           src={profile}
           width={60}
           height={60}
@@ -47,7 +63,7 @@ export default function BasicModal({ name, src, profile, video }) {
         <p className="text-white absolute bottom-3.5 font-semibold text-xs md:text-lg">
           {name}
         </p>
-      </div>
+      </motion.div>
       <Modal
         open={open}
         onClose={handleClose}

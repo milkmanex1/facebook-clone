@@ -3,10 +3,15 @@ import "../styles/Login.css";
 import "../styles/index.css";
 import { SessionProvider } from "next-auth/react";
 import AppContext from "../components/AppContext";
-import { useState, createContext } from "react";
+import { useState, createContext, useRef } from "react";
+import { useRouter } from "next/router";
+
+//All stuff to be shared by useContext are defined here
 
 //this provider allows us to persist a login state between pages on NextJs
+
 function MyApp({ Component, pageProps }) {
+  const router = useRouter();
   const [bgIndex, setBgIndex] = useState(0);
   const backgrounds = [
     { id: 5, src: "/images/galaxy.jpg" },
@@ -40,10 +45,11 @@ function MyApp({ Component, pageProps }) {
           setUserName,
         }}
       >
-        <Component {...pageProps} />
+        <Component {...pageProps} key={router.asPath} />
       </AppContext.Provider>
     </SessionProvider>
   );
 }
+//Note: the key={router.asPath} is used to get nextJs to refresh when clicking Link.
 
 export default MyApp;

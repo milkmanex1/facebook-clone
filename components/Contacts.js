@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import Chat from "./Chat";
+import Chat from "./ChatDark";
 import { SearchIcon } from "@heroicons/react/outline";
 import { DotsHorizontalIcon, VideoCameraIcon } from "@heroicons/react/solid";
+import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
 import {
   collection,
   query,
@@ -11,22 +12,67 @@ import {
   getDocs,
   addDoc,
   onSnapshot,
+  where,
+  updateDoc,
 } from "firebase/firestore";
 import { useSession } from "next-auth/react";
 import { db, serverTimestamp } from "../firebase";
 import { useCollection } from "react-firebase-hooks/firestore";
+import { motion, AnimatePresence } from "framer-motion";
+import Contact from "./Contact";
 
 const Contacts = () => {
   const { data: session, status } = useSession();
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [profileInfo, setProfileInfo] = useState([]);
+  const [chats, setChats] = useState([]);
+  const [newMessages, setnewMessages] = useState(false);
 
   //this object contains Reciever userName, profileImg and email. Will be passed into the Chat component
   const [recieverInfo, setRecieverInfo] = useState([]);
 
-  //get chats from firebase
-  const [snapshot, loading, error] = useCollection(collection(db, "chats"));
-  const chats = snapshot?.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+  function testing() {
+    // console.log(chats[1].newMessages);
+    const gotNewMsg = isThereNewMessages("aizensosuke233@gmail.com");
+    console.log(gotNewMsg);
+  }
+
+  //get all chats(id, users, newMessages. Note: cant access messages) with current user from firebase
+  async function getChats() {
+    const chatsRef = collection(db, "chats");
+    const q = query(
+      chatsRef,
+      where("users", "array-contains", session.user.email)
+    );
+    const querySnapshot = await getDocs(q);
+    let tempChats = [];
+    querySnapshot.forEach((doc) => {
+      tempChats.push({ id: doc.id, ...doc.data() });
+    });
+    setChats(tempChats);
+  }
+  //check if this guy's email and current user has new messages. If have, return true
+  function isThereNewMessages(email) {
+    //get chat with this Email
+    if (chats) {
+      const thisChat = chats.find((chat) => {
+        return (
+          chat.users.includes(email) && chat.users.includes(session.user.email)
+        );
+      });
+      if (thisChat?.newMessages) {
+        return true;
+      }
+      return false;
+    }
+  }
+
+  useEffect(() => {
+    getChats();
+  }, []);
+  //   useEffect(() => {
+  //     console.log(chats);
+  //   }, [chats]);
 
   function chatExists(email) {
     return chats?.find(
@@ -37,6 +83,7 @@ const Contacts = () => {
 
   function openChat(src, name, email) {
     if (isChatOpen) {
+      setIsChatOpen(false);
       return;
     } else {
       setIsChatOpen(true);
@@ -79,50 +126,110 @@ const Contacts = () => {
     getProfiles();
   }, []);
 
+  async function findChatId(email) {
+    //returns the chat Id between this email and the current user
+    let id;
+    const colRef = collection(db, "chats");
+    const q = query(
+      colRef,
+      where("users", "array-contains", session.user.email)
+    );
+    const snapshot = await getDocs(q);
+    snapshot.forEach((doc) => {
+      if (doc.data().users.includes(email)) {
+        id = doc.id;
+      }
+    });
+    return id;
+  }
+  async function readNewMessages(email) {
+    console.log("no more new messages..");
+    const id = await findChatId(email);
+    updateChat(id, false);
+  }
+
   //   useEffect(() => {
   //     console.log(`profiles on the contact page: ${JSON.stringify(profileInfo)}`);
   //   }, [profileInfo]);
 
+  //run thru each chat, checkForNewMessages, updateChat
+  function checkAllChats() {
+    chats.forEach((chat) => {
+      const id = chat.id;
+      const colRef = collection(db, `chats/${id}/messages`);
+      const q = query(colRef, orderBy("timestamp", "asc"));
+      onSnapshot(q, (snapshot) => {
+        let tempMessages = [];
+        snapshot.forEach((doc) => {
+          // console.log(doc.data());
+          tempMessages.push({ ...doc.data(), messageId: doc.id });
+        });
+        if (tempMessages.length > 0) {
+          if (lastMessageByOtherGuy(tempMessages) && chat.newMessages == null) {
+            updateChat(id, true);
+          }
+        }
+      });
+    });
+  }
+
+  function lastMessageByOtherGuy(messages) {
+    //Returns true if last message was sent by another guy
+    return messages[messages.length - 1]?.sender !== session.user.email;
+  }
+  async function updateChat(chatId, bool) {
+    //update 'newMessage' status of the chat
+    const docRef = doc(db, `chats/${chatId}`);
+    await updateDoc(docRef, { newMessages: bool });
+  }
+  useEffect(() => {
+    checkAllChats();
+  }, [chats]);
+  useEffect(() => {
+    checkAllChats();
+  }, []);
   return (
-    <div className="hidden lg:flex flex-col w-60 p-2 mt-5 h-screen overflow-y-auto scrollbar-hide ">
+    <div className="hidden lg:flex flex-col w-60 p-2 mt-5 h-3/4">
       <div className="flex justify-between items-center text-slate-200 mb-5">
         <h2 className="text-xl">Contacts</h2>
         <div className="flex space-x-2">
           <VideoCameraIcon className="h-6"></VideoCameraIcon>
-          <SearchIcon className="h-6"></SearchIcon>
+          <SearchIcon onClick={testing} className="h-6"></SearchIcon>
           <DotsHorizontalIcon className="h-6"></DotsHorizontalIcon>
         </div>
       </div>
-      {profileInfo.map((info, i) => {
-        const src = info.profileImg;
-        const name = info.userName;
-        const email = info.email;
+      <div className="h-full overflow-y-auto scrollbar-hide">
+        {profileInfo.map((info, i) => {
+          const src = info.profileImg;
+          const name = info.userName;
+          const email = info.email;
 
-        if (email !== session.user.email)
-          return (
-            <div
-              onClick={() => {
-                openChat(src, name, email);
-              }}
-              key={i}
-              className="flex items-center space-x-3 mb-2 relative border-transparent border-2 hover:border-slate-100 hover:border-2 hover:bg-white/20 cursor-pointer p-2 rounded-xl"
-            >
-              <Image
-                className="rounded-full"
-                objectFit="cover"
-                src={src}
-                width={50}
-                height={50}
-                layout="fixed"
-              ></Image>
-              <p className="text-slate-100">{name}</p>
-              <div className="absolute bottom-2 left-7 bg-green-400 h-3 w-3 rounded-full "></div>
-            </div>
-          );
-      })}
-      {isChatOpen && (
-        <Chat setIsChatOpen={setIsChatOpen} recieverInfo={recieverInfo}></Chat>
-      )}
+          if (email !== session.user.email)
+            return (
+              <Contact
+                {...{
+                  src,
+                  name,
+                  email,
+                  isThereNewMessages,
+                  readNewMessages,
+                  openChat,
+                }}
+                key={i}
+              ></Contact>
+            );
+        })}
+      </div>
+      <div className="">
+        <AnimatePresence>
+          {isChatOpen && (
+            <Chat
+              setIsChatOpen={setIsChatOpen}
+              recieverInfo={recieverInfo}
+            ></Chat>
+          )}
+        </AnimatePresence>
+      </div>
     </div>
   );
 };

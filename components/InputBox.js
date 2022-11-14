@@ -7,6 +7,7 @@ import AppContext from "../components/AppContext";
 
 import EmojiPopper from "./EmojiPopper";
 import InputEmoji from "react-input-emoji";
+import ImagePopper from "./ImagePopper";
 
 import {
   db,
@@ -23,6 +24,11 @@ import {
   uploadString,
 } from "firebase/storage";
 
+// import Scroll from "react-scroll";
+
+// var Link = Scroll.Link;
+// var Element = Scroll.Element;
+
 import { doc, setDoc, getDocs } from "firebase/firestore";
 const InputBox = () => {
   const { data: session, status } = useSession();
@@ -34,6 +40,7 @@ const InputBox = () => {
   const [imageToPost, setImageToPost] = useState(null);
   const [testImage, setTestImage] = useState(null);
   const [input, setInput] = useState("");
+  const [imageShape, setImageShape] = useState("wide");
 
   function testFunction() {
     getDocs(colRef).then((snapshot) => {
@@ -42,6 +49,9 @@ const InputBox = () => {
       console.log(myData);
     });
   }
+  //   useEffect(() => {
+  //     console.log(imageToPost);
+  //   }, [imageToPost]);
 
   function sendPost(e) {
     e.preventDefault();
@@ -59,7 +69,7 @@ const InputBox = () => {
         dislikes: [],
         comments: [],
         shares: 0,
-
+        imageShape: imageShape,
         timestamp: serverTimestamp(),
       }).then((docSN) => {
         if (imageToPost) {
@@ -88,9 +98,9 @@ const InputBox = () => {
           );
         }
       });
-
       //clear the input
-      inputRef.current.value = "";
+      inputRef.current.value = null;
+      setInput("");
     }
   }
   //Need to use FileReader to display the image obtained from input type=image
@@ -157,7 +167,12 @@ const InputBox = () => {
           </div>
         </div>
         <div className="flex-grow">
-          <div
+          <ImagePopper
+            setTestImage={setTestImage}
+            setImageToPost={setImageToPost}
+            setImageShape={setImageShape}
+          ></ImagePopper>
+          {/* <div
             className="inputIcon"
             onClick={() => {
               filepickerRef.current.click();
@@ -173,7 +188,7 @@ const InputBox = () => {
               type="file"
               hidden
             />
-          </div>
+          </div> */}
         </div>
         <EmojiPopper input={input} setInput={setInput}></EmojiPopper>
 
