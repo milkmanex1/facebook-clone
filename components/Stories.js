@@ -1,35 +1,74 @@
-import React from "react";
+import React, { useState } from "react";
 import StoryCard from "./StoryCard.js";
+import {
+  collection,
+  query,
+  orderBy,
+  doc,
+  getDocs,
+  addDoc,
+  onSnapshot,
+} from "firebase/firestore";
+import { db, serverTimestamp } from "../firebase";
 
 const stories = [
   {
     name: "Steven Lim",
-    src: "/images/stevenStory.jpg",
+    email: "StevenLimKorKor34@gmail.com",
+    src: "/images/stevenCry.jpg",
     profile: "/images/Stevenlollipop1.jpeg",
+    video: "https://www.youtube.com/watch?v=POm_WkxRbnU",
   },
   {
-    name: "Sun Po",
-    src: "/images/sun-ho-makeup.jpg",
-    profile: "/images/sunhodp.jpg",
+    name: "Kim Jong Un",
+    src: "/images/kim6.jpeg",
+    profile: "/images/kim5.jpg",
+    video: "https://www.youtube.com/watch?v=dh3z1kYmMzQ",
   },
   {
-    name: "Amos Yi",
-    src: "/images/amosyeeStory.jpg",
-    profile: "/images/amosyeeDP (2).jpg",
+    name: "Najib Razak",
+    email: "najibRazak6745@gmail.com",
+    src: "/images/najibSnooze.jpg",
+    profile: "/images/najib-profile.jpg",
+    video: "https://www.dailymotion.com/video/x7vri8t",
   },
   {
-    name: "Dee Kosh",
-    src: "/images/deekosh.jpg",
-    profile: "/images/dk (4).jpg",
+    name: "Justin Bieber",
+    src: "/images/bieberFace.jpg",
+    profile: "/images/justinProfile.jpg",
+    video: "https://www.youtube.com/watch?v=7D5sxxXYtyw",
   },
   {
-    name: "Chuan Do Tan",
-    src: "/images/chuandoPic.png",
-    profile: "/images/chuandoDP1.jpg",
+    name: "Xi Jin Ping",
+    src: "/images/jinpingeating.jpg",
+    profile: "/images/jinPingDp.jpg",
+    video: "https://www.youtube.com/watch?v=r5qZoT6bbJo",
   },
 ];
 
 const Stories = () => {
+  // const [profileInfo, setProfileInfo] = useState([]);
+  // async function getProfiles() {
+  //     const colRef = collection(db, "profiles");
+  //     const q = query(colRef);
+  //     onSnapshot(q, (snapshot) => {
+  //       let tempInfo = [];
+  //       snapshot.forEach((doc) => {
+  //         //only get those profiles with userName and profileImg
+  //         if (doc.data().userName && doc.data().profileImg)
+  //           tempInfo.push({
+  //             userName: doc.data().userName,
+  //             profileImg: doc.data().profileImg,
+  //             email: doc.id,
+  //           });
+  //       });
+  //       setProfileInfo(tempInfo);
+  //     });
+  //   }
+  //   useEffect(() => {
+  //     getProfiles();
+  //   }, []);
+
   return (
     <div className="flex justify-center space-x-3 mx-auto">
       {stories.map((story) => {
@@ -39,6 +78,7 @@ const Stories = () => {
             name={story.name}
             src={story.src}
             profile={story.profile}
+            video={story.video}
           ></StoryCard>
         );
       })}

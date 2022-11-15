@@ -1,8 +1,14 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useContext } from "react";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
 import { EmojiHappyIcon } from "@heroicons/react/outline";
 import { CameraIcon, VideoCameraIcon } from "@heroicons/react/solid";
+import AppContext from "../components/AppContext";
+
+import EmojiPopper from "./EmojiPopper";
+import InputEmoji from "react-input-emoji";
+import ImagePopper from "./ImagePopper";
+
 import {
   db,
   addDoc,
@@ -18,14 +24,23 @@ import {
   uploadString,
 } from "firebase/storage";
 
+// import Scroll from "react-scroll";
+
+// var Link = Scroll.Link;
+// var Element = Scroll.Element;
+
 import { doc, setDoc, getDocs } from "firebase/firestore";
 const InputBox = () => {
   const { data: session, status } = useSession();
+
+  const { profileImg, userName } = useContext(AppContext);
 
   const inputRef = useRef(null);
   const filepickerRef = useRef(null);
   const [imageToPost, setImageToPost] = useState(null);
   const [testImage, setTestImage] = useState(null);
+  const [input, setInput] = useState("");
+  const [imageShape, setImageShape] = useState("wide");
 
   function testFunction() {
     getDocs(colRef).then((snapshot) => {
@@ -34,10 +49,9 @@ const InputBox = () => {
       console.log(myData);
     });
   }
-
-  useEffect(() => {
-    // console.log(imageToPost);
-  }, [imageToPost]);
+  //   useEffect(() => {
+  //     console.log(imageToPost);
+  //   }, [imageToPost]);
 
   function sendPost(e) {
     e.preventDefault();
@@ -48,13 +62,14 @@ const InputBox = () => {
       //add a new post
       addDoc(colRef, {
         message: inputRef.current.value,
-        name: session.user.name,
+        name: userName ? userName : session.user.name,
         email: session.user.email,
-        image: session.user.image,
-        likes: 0,
+        image: profileImg ? profileImg : session.user.image,
+        likes: [],
+        dislikes: [],
         comments: [],
         shares: 0,
-
+        imageShape: imageShape,
         timestamp: serverTimestamp(),
       }).then((docSN) => {
         if (imageToPost) {
@@ -79,26 +94,13 @@ const InputBox = () => {
                   { merge: true }
                 );
               });
-
-              //v8 syntax
-              //   storage
-              //     .ref(`posts/${doc.id}`)
-              //     .getDownloadURL()
-              //     .then((url) => {
-              //       db.collection("posts").doc(doc.id).set(
-              //         {
-              //           postImage: url,
-              //         },
-              //         { merge: true }
-              //       );
-              //     });
             }
           );
         }
       });
-
       //clear the input
-      inputRef.current.value = "";
+      inputRef.current.value = null;
+      setInput("");
     }
   }
   //Need to use FileReader to display the image obtained from input type=image
@@ -122,7 +124,7 @@ const InputBox = () => {
       <div className="flex space-x-3 p-4 items-center">
         <Image
           className="rounded-full"
-          src={session.user.image}
+          src={profileImg ? profileImg : session.user.image}
           width={40}
           height={40}
           layout="fixed"
@@ -130,9 +132,13 @@ const InputBox = () => {
         <form className="flex flex-1">
           <input
             type="text"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
             ref={inputRef}
             className="rounded-full h-12 bg-gray-100 flex-grow px-5 focus:outline-none"
-            placeholder={`What's on your mind, ${session.user.name}?`}
+            placeholder={`What's on your mind, ${
+              userName ? userName : session.user.name
+            }?`}
           />
           <button className="hidden" type="submit" onClick={sendPost}>
             Submit
@@ -152,39 +158,50 @@ const InputBox = () => {
       </div>
 
       <div className="flex justify-evenly p-3 border-t-0 ">
-        <div className="inputIcon">
-          <VideoCameraIcon className="h-7 text-red-500"></VideoCameraIcon>
-          <p className="text-xs sm:text-sm xl:text-base mainText">Live Video</p>
+        <div className="flex-grow">
+          <div className="inputIcon">
+            <VideoCameraIcon className="h-7 text-red-500"></VideoCameraIcon>
+            <p className="text-xs sm:text-sm xl:text-base mainText">
+              Live Video
+            </p>
+          </div>
         </div>
-        <div
-          className="inputIcon"
-          onClick={() => {
-            filepickerRef.current.click();
-          }}
-        >
-          <CameraIcon className="h-7 text-green-500"></CameraIcon>
-          <p className="text-xs sm:text-sm xl:text-base mainText">
-            Photo/Video
-          </p>
-          <input
-            ref={filepickerRef}
-            onChange={addImageToPost}
-            type="file"
-            hidden
-          />
+        <div className="flex-grow">
+          <ImagePopper
+            setTestImage={setTestImage}
+            setImageToPost={setImageToPost}
+            setImageShape={setImageShape}
+          ></ImagePopper>
+          {/* <div
+            className="inputIcon"
+            onClick={() => {
+              filepickerRef.current.click();
+            }}
+          >
+            <CameraIcon className="h-7 text-green-500"></CameraIcon>
+            <p className="text-xs sm:text-sm xl:text-base mainText">
+              Photo / Gif
+            </p>
+            <input
+              ref={filepickerRef}
+              onChange={addImageToPost}
+              type="file"
+              hidden
+            />
+          </div> */}
         </div>
-        <div className="inputIcon">
+        <EmojiPopper input={input} setInput={setInput}></EmojiPopper>
+
+        {/* <div className="inputIcon">
           <EmojiHappyIcon className="h-7 text-yellow-300"></EmojiHappyIcon>
           <p className="text-xs sm:text-sm xl:text-base mainText">
             Feeling/Activity
           </p>
-        </div>
-        {/* <button
-          className="rounded-md bg-slate-400 text-white p-1 text-sm"
-          onClick={testFunction}
-        >
-          Test Button
-        </button> */}
+
+          <div className="absolute z-50 top-36">
+            <Picker data={data} onEmojiSelect={console.log} />
+          </div>
+        </div> */}
       </div>
     </div>
   );
@@ -201,5 +218,3 @@ export default InputBox;
 //The only diff is that he did not convert the image to a dataURL. He just took the image from the e.target.files[0]
 
 //So the issue was that I was uploading a wrong type of image file.
-
-//Why the fuck Sonny code so fucking stupid man...
