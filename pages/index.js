@@ -55,6 +55,7 @@ export default function Home() {
   }, [email]);
 
   if (!session) return <Login />;
+
   return (
     <div
       className="h-screen w-screen !overflow-hidden mainBg"
