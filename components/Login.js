@@ -44,6 +44,8 @@ const Login = () => {
               <div className="flex gap-4">
                 <div>Password:</div>password356
               </div>
+              <br></br>
+              <div>Verify its you: Enter Recovery Email</div>
               <div className="flex gap-4">
                 <div>Recovery Email:</div>Therealman364@gmail.com
               </div>
