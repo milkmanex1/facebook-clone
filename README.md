@@ -20,7 +20,9 @@ Notable features include:
 
 
 ### User Features:
-- Login and logout with google account
+
+**Login**
+- Login and logout securely with google account
 - Switch background feature
 
 **Post**
