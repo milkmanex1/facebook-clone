@@ -3,6 +3,7 @@
 import NextAuth from "next-auth/next";
 import FacebookProvider from "next-auth/providers/facebook";
 import GoogleProvider from "next-auth/providers/google";
+import GitHubProvider from "next-auth/providers/github";
 export const authOptions = {
   // Configure one or more authentication providers. Can be fb, google
   providers: [
