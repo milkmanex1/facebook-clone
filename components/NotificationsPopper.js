@@ -65,7 +65,8 @@ export default function SimplePopper({ backgrounds }) {
   const { data: session, status } = useSession();
   const [notifications, setNotifications] = useState([]);
   //get required stuff from context
-  const { changeBG, profileImg, userName } = useContext(AppContext);
+  const { changeBG, profileImg, userName, guestName, guestImage, guestEmail } =
+    useContext(AppContext);
   //for the Btns
   const [btn1, setBtn1] = useState(true);
   const [btn2, setBtn2] = useState(false);
@@ -86,7 +87,7 @@ export default function SimplePopper({ backgrounds }) {
     //-------------get the notifications------------
     const colRef = collection(
       db,
-      `profiles/${session.user.email}/notifications`
+      `profiles/${session ? session?.user.email : guestEmail}/notifications`
     );
     const q = query(colRef, orderBy("timestamp", "desc"));
     onSnapshot(q, (snapshot) => {

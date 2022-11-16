@@ -1,12 +1,29 @@
-import React, { useState } from "react";
+import { useState, useEffect, useContext } from "react";
 import Image from "next/image";
 import { signIn } from "next-auth/react";
 import { XCircleIcon } from "@heroicons/react/solid";
+import AppContext from "../components/AppContext";
 // import '../styles/Login.css'
 import Link from "next/link";
 
 const Login = () => {
   const [modalOpen, setModalOpen] = useState(false);
+
+  const {
+    profileImg,
+    setProfileImg,
+    userName,
+    setUserName,
+    isGuest,
+    setIsGuest,
+    guestName,
+    setGuestName,
+    guestImage,
+    setGuestImage,
+    guestEmail,
+    setGuestEmail,
+  } = useContext(AppContext);
+
   function openModal() {
     setModalOpen(true);
   }
@@ -30,7 +47,28 @@ const Login = () => {
         <h1 className="loginBtn mb-5" onClick={signIn}>
           Login
         </h1>
-
+        <Link
+          href={{
+            pathname: "/",
+            // query: {
+            //   name: "Test Spacebook",
+            //   image: "/images/logo1.png",
+            //   email: "testspacebook356@gmail.com",
+            // },
+          }}
+        >
+          <h1
+            className="loginBtn mb-5"
+            onClick={() => {
+              setIsGuest(true);
+              setGuestName("Test Spacebook");
+              setGuestImage("/images/logo1.png");
+              setGuestEmail("testspacebook356@gmail.com");
+            }}
+          >
+            Login as Guest
+          </h1>
+        </Link>
         {modalOpen ? (
           <div className="text-white border-2 border-white p-2 rounded-2xl relative">
             New here? Use this to login:

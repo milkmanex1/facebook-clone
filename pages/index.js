@@ -18,8 +18,16 @@ export default function Home() {
 
   const [email, setEmail] = useState(null);
   //stuff to pull from firebase
-  const { profileImg, setProfileImg, userName, setUserName } =
-    useContext(AppContext);
+  const {
+    profileImg,
+    setProfileImg,
+    userName,
+    setUserName,
+    isGuest,
+    guestName,
+    guestImage,
+    guestEmail,
+  } = useContext(AppContext);
 
   //pull data from firebase
   async function getInfo() {
@@ -51,10 +59,16 @@ export default function Home() {
   }, [status]);
 
   useEffect(() => {
+    if (status !== "authenticated" && isGuest) {
+      setEmail(guestEmail);
+    }
+  }, [guestEmail]);
+
+  useEffect(() => {
     getInfo();
   }, [email]);
 
-  if (!session) return <Login />;
+  if (!session && !isGuest) return <Login />;
 
   return (
     <div

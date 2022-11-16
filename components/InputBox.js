@@ -33,7 +33,8 @@ import { doc, setDoc, getDocs } from "firebase/firestore";
 const InputBox = () => {
   const { data: session, status } = useSession();
 
-  const { profileImg, userName } = useContext(AppContext);
+  const { profileImg, userName, guestName, guestImage, guestEmail } =
+    useContext(AppContext);
 
   const inputRef = useRef(null);
   const filepickerRef = useRef(null);
@@ -62,9 +63,9 @@ const InputBox = () => {
       //add a new post
       addDoc(colRef, {
         message: inputRef.current.value,
-        name: userName ? userName : session.user.name,
-        email: session.user.email,
-        image: profileImg ? profileImg : session.user.image,
+        name: userName ? userName : session?.user.name,
+        email: session?.user.email,
+        image: profileImg ? profileImg : session?.user.image,
         likes: [],
         dislikes: [],
         comments: [],
@@ -124,7 +125,7 @@ const InputBox = () => {
       <div className="flex space-x-3 p-4 items-center">
         <Image
           className="rounded-full"
-          src={profileImg ? profileImg : session.user.image}
+          src={profileImg ? profileImg : session?.user.image}
           width={40}
           height={40}
           layout="fixed"
@@ -137,7 +138,7 @@ const InputBox = () => {
             ref={inputRef}
             className="rounded-full h-12 bg-gray-100 flex-grow px-5 focus:outline-none"
             placeholder={`What's on your mind, ${
-              userName ? userName : session.user.name
+              userName ? userName : session?.user.name
             }?`}
           />
           <button className="hidden" type="submit" onClick={sendPost}>

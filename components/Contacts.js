@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import Image from "next/image";
 import Chat from "./ChatDark";
 import { SearchIcon } from "@heroicons/react/outline";
@@ -20,9 +20,11 @@ import { db, serverTimestamp } from "../firebase";
 import { useCollection } from "react-firebase-hooks/firestore";
 import { motion, AnimatePresence } from "framer-motion";
 import Contact from "./Contact";
+import AppContext from "../components/AppContext";
 
 const Contacts = () => {
   const { data: session, status } = useSession();
+  const { guestName, guestImage, guestEmail } = useContext(AppContext);
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [profileInfo, setProfileInfo] = useState([]);
   const [chats, setChats] = useState([]);
@@ -42,7 +44,11 @@ const Contacts = () => {
     const chatsRef = collection(db, "chats");
     const q = query(
       chatsRef,
-      where("users", "array-contains", session.user.email)
+      where(
+        "users",
+        "array-contains",
+        session ? session?.user.email : guestEmail
+      )
     );
     const querySnapshot = await getDocs(q);
     let tempChats = [];
@@ -57,7 +63,8 @@ const Contacts = () => {
     if (chats) {
       const thisChat = chats.find((chat) => {
         return (
-          chat.users.includes(email) && chat.users.includes(session.user.email)
+          chat.users.includes(email) &&
+          chat.users.includes(session ? session?.user.email : guestEmail)
         );
       });
       if (thisChat?.newMessages) {
@@ -77,7 +84,8 @@ const Contacts = () => {
   function chatExists(email) {
     return chats?.find(
       (chat) =>
-        chat.users.includes(session.user.email) && chat.users.includes(email)
+        chat.users.includes(session ? session?.user.email : guestEmail) &&
+        chat.users.includes(email)
     );
   }
 
@@ -100,7 +108,7 @@ const Contacts = () => {
 
   async function createNewChat(recieverEmail) {
     const docRef = await addDoc(collection(db, "chats"), {
-      users: [session.user.email, recieverEmail],
+      users: [session ? session?.user.email : guestEmail, recieverEmail],
     });
   }
 
@@ -132,7 +140,11 @@ const Contacts = () => {
     const colRef = collection(db, "chats");
     const q = query(
       colRef,
-      where("users", "array-contains", session.user.email)
+      where(
+        "users",
+        "array-contains",
+        session ? session?.user.email : guestEmail
+      )
     );
     const snapshot = await getDocs(q);
     snapshot.forEach((doc) => {
@@ -175,7 +187,9 @@ const Contacts = () => {
 
   function lastMessageByOtherGuy(messages) {
     //Returns true if last message was sent by another guy
-    return messages[messages.length - 1]?.sender !== session.user.email;
+    return messages[messages.length - 1]?.sender !== session
+      ? session?.user.email
+      : guestEmail;
   }
   async function updateChat(chatId, bool) {
     //update 'newMessage' status of the chat
@@ -204,7 +218,7 @@ const Contacts = () => {
           const name = info.userName;
           const email = info.email;
 
-          if (email !== session.user.email)
+          if (email !== session ? session?.user.email : guestEmail)
             return (
               <Contact
                 {...{

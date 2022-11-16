@@ -43,7 +43,8 @@ export default function SimplePopper({ backgrounds }) {
   const { data: session, status } = useSession();
 
   //get required stuff from context
-  const { changeBG, profileImg, userName } = useContext(AppContext);
+  const { changeBG, profileImg, userName, guestName, guestImage, guestEmail } =
+    useContext(AppContext);
 
   //MUI function
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -77,8 +78,8 @@ export default function SimplePopper({ backgrounds }) {
           src={
             profileImg
               ? profileImg
-              : session.user.image
-              ? session.user.image
+              : session?.user.image
+              ? session?.user.image
               : "/images/guest-icon.png"
           }
           height={50}
@@ -104,8 +105,8 @@ export default function SimplePopper({ backgrounds }) {
                 href={{
                   pathname: "/profile",
                   query: {
-                    email: session.user.email,
-                    userName: session.user.name,
+                    email: session?.user.email,
+                    userName: session?.user.name,
                   },
                 }}
               >
@@ -115,8 +116,8 @@ export default function SimplePopper({ backgrounds }) {
                     src={
                       profileImg
                         ? profileImg
-                        : session.user.image
-                        ? session.user.image
+                        : session?.user.image
+                        ? session?.user.image
                         : "/images/guest-icon.png"
                     }
                     height={50}
@@ -124,7 +125,7 @@ export default function SimplePopper({ backgrounds }) {
                     layout="fixed"
                   ></Image>
                   <div className="grid items-center text-lg font-semibold ">
-                    {userName ? userName : session.user.name}
+                    {userName ? userName : session?.user.name}
                   </div>
                 </div>
               </Link>

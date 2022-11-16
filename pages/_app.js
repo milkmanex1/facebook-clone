@@ -13,6 +13,7 @@ import { useRouter } from "next/router";
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
   const [bgIndex, setBgIndex] = useState(0);
+
   const backgrounds = [
     { id: 5, src: "/images/galaxy.jpg" },
     { id: 1, src: "/images/orion-nebula.jpg" },
@@ -30,6 +31,10 @@ function MyApp({ Component, pageProps }) {
   }
   const [profileImg, setProfileImg] = useState(null);
   const [userName, setUserName] = useState(null);
+  const [isGuest, setIsGuest] = useState(false);
+  const [guestName, setGuestName] = useState("");
+  const [guestImage, setGuestImage] = useState("");
+  const [guestEmail, setGuestEmail] = useState("");
 
   return (
     <SessionProvider session={pageProps.session}>
@@ -43,6 +48,14 @@ function MyApp({ Component, pageProps }) {
           setProfileImg,
           userName,
           setUserName,
+          isGuest,
+          setIsGuest,
+          guestName,
+          setGuestName,
+          guestImage,
+          setGuestImage,
+          guestEmail,
+          setGuestEmail,
         }}
       >
         <Component {...pageProps} key={router.asPath} />

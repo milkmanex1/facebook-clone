@@ -21,22 +21,23 @@ var Element = Scroll.Element;
 
 const Sidebar = () => {
   const { data: session, status } = useSession();
-  const { profileImg, userName } = useContext(AppContext);
+  const { profileImg, userName, guestEmail, guestName } =
+    useContext(AppContext);
   return (
     <div className="p-2 mt-5 xl:w-[300px] xl:min-w-[200px]">
       <Link
         href={{
           pathname: "/profile",
           query: {
-            email: session.user.email,
-            userName: session.user.name,
+            email: session ? session?.user.email : guestEmail,
+            userName: session ? session?.user.name : guestName,
           },
         }}
       >
         <a>
           <SidebarRow
-            src={profileImg ? profileImg : session.user.image}
-            title={userName ? userName : session.user.name}
+            src={profileImg ? profileImg : session?.user.image}
+            title={userName ? userName : session?.user.name}
           ></SidebarRow>
         </a>
       </Link>
