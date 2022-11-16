@@ -3,6 +3,7 @@ import Image from "next/image";
 import { signIn } from "next-auth/react";
 import { XCircleIcon } from "@heroicons/react/solid";
 // import '../styles/Login.css'
+import Link from "next/link";
 
 const Login = () => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -29,6 +30,7 @@ const Login = () => {
         <h1 className="loginBtn mb-5" onClick={signIn}>
           Login
         </h1>
+
         {modalOpen ? (
           <div className="text-white border-2 border-white p-2 rounded-2xl relative">
             New here? Use this to login:
