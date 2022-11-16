@@ -41,7 +41,7 @@ const Login = () => {
                 <div>Email:</div>testspacebook356@gmail.com
               </div>
               <div className="flex gap-4">
-                <div>Password:</div>password
+                <div>Password:</div>password356
               </div>
             </div>
           </div>
