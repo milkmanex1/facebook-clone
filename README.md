@@ -22,16 +22,22 @@ Notable features include:
 User Features:
 - Login and logout
 - Switch background 
-- Create post, upload image or gif
+
+**Posts **
+- Create post, upload image or gif 
+- Choose between portrait or landscape when uploading image/gif
 - Comment, Like, Dislike post
 - View who liked/disliked your post on hover
+- Delete your own post
 - Customize profile page
 - Ability to stalk other users, create private post to them  
 - Chat with others(instant messaging)
 - Chat notification bell appears when new message is received, disappears when message is read
-- General notification pop up
-- notification filters seen and unseen
-- notifications updates from unseen to seen on user click
+- General notification pop up when another user likes, dislikes, comments on your post, or creates a private post to you
+- Notification filters seen and unseen
+- Click on specific notification to view th
+- Notifications updates from unseen to seen after user clicks through
+
 
 
 
