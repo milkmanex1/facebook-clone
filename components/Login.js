@@ -40,8 +40,12 @@ const Login = () => {
               <div className="flex gap-4">
                 <div>Email:</div>testspacebook356@gmail.com
               </div>
+
               <div className="flex gap-4">
                 <div>Password:</div>password356
+              </div>
+              <div className="flex gap-4">
+                <div>Recovery Email:</div>Therealman364@gmail.com
               </div>
             </div>
           </div>
@@ -50,8 +54,8 @@ const Login = () => {
             className="text-white/20 border-2 border-white/20 p-4 rounded-2xl cursor-pointer hover:text-white/90 hover:border-white/90 transition duration-500 ease-in-out"
             onClick={openModal}
           >
-            Welcome, stranger! Login with your own Google Account, or click me
-            to get test account details!
+            Welcome, stranger! Login with your own Google/Github Account, or
+            click me to get test account details!
           </div>
         )}
       </div>
