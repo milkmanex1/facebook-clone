@@ -13,7 +13,7 @@ import Post from "../components/Post";
 import Sidebar from "../components/Sidebar";
 import Contacts from "../components/Contacts";
 
-const singlePost = () => {
+const SinglePost = () => {
   const { data: session, status } = useSession();
   const { backgrounds, bgIndex } = useContext(AppContext);
   const [post, setPost] = useState();
@@ -93,7 +93,7 @@ const singlePost = () => {
   }
 };
 
-export default singlePost;
+export default SinglePost;
 
 export async function getServerSideProps(context) {
   return {

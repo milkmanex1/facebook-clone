@@ -14,7 +14,7 @@ import AppContext from "../components/AppContext";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "../firebase";
 
-const profile = () => {
+const Profile = () => {
   const { data: session, status } = useSession();
   const { backgrounds, bgIndex } = useContext(AppContext);
 
@@ -72,4 +72,4 @@ const profile = () => {
   }
 };
 
-export default profile;
+export default Profile;
