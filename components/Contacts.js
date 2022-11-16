@@ -198,7 +198,7 @@ const Contacts = () => {
           <DotsHorizontalIcon className="h-6"></DotsHorizontalIcon>
         </div>
       </div>
-      <div className="h-full overflow-y-auto scrollbar-hide">
+      <div className="h-[800px] max-h-[80vh] overflow-y-auto scrollbar-hide">
         {profileInfo.map((info, i) => {
           const src = info.profileImg;
           const name = info.userName;

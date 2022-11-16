@@ -50,7 +50,8 @@ const Login = () => {
             className="text-white/20 border-2 border-white/20 p-4 rounded-2xl cursor-pointer hover:text-white/90 hover:border-white/90 transition duration-500 ease-in-out"
             onClick={openModal}
           >
-            Welcome, stranger! Click Me to get Test Account details!
+            Welcome, stranger! Login with your own Google Account, or click me
+            to get test account details!
           </div>
         )}
       </div>
