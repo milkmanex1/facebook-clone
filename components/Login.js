@@ -57,7 +57,7 @@ const Login = () => {
             onClick={openModal}
           >
             Welcome, stranger! Login with your own Google/Github Account, or
-            click me to get test account details!
+            click me to get Google test account details!
           </div>
         )}
       </div>
