@@ -13,18 +13,24 @@ import { db, serverTimestamp } from "../firebase";
 
 const stories = [
   {
+    name: "Kim Jong Un",
+    src: "/images/kim6.jpeg",
+    profile: "/images/kim5.jpg",
+    video: "https://www.youtube.com/watch?v=dh3z1kYmMzQ",
+  },
+  {
     name: "Steven Lim",
     email: "StevenLimKorKor34@gmail.com",
     src: "/images/stevenStory.jpg",
     profile: "/images/Stevenlollipop1.jpeg",
     video: "https://www.youtube.com/watch?v=POm_WkxRbnU",
   },
-  {
-    name: "Kim Jong Un",
-    src: "/images/kim6.jpeg",
-    profile: "/images/kim5.jpg",
-    video: "https://www.youtube.com/watch?v=dh3z1kYmMzQ",
-  },
+  //   {
+  //     name: "Kim Jong Un",
+  //     src: "/images/kim6.jpeg",
+  //     profile: "/images/kim5.jpg",
+  //     video: "https://www.youtube.com/watch?v=dh3z1kYmMzQ",
+  //   },
   {
     name: "Najib Razak",
     email: "najibRazak6745@gmail.com",
