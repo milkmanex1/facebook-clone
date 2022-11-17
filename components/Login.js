@@ -30,12 +30,16 @@ const Login = () => {
           Login
         </h1>
         {modalOpen ? (
-          <div className="text-white border-2 border-white p-2 rounded-2xl relative">
-            New here? Use this to login:
+          <div className="text-white border-2 border-white p-2 rounded-2xl relative text-lg ">
+            <div className="mb-4 mx-8">
+              Tip: Copy paste the info below on your Notepad
+            </div>
+            <div className="font-bold">Guest Google Account:</div>
             <XCircleIcon
               className="h-6 w-6 absolute top-2 right-2 cursor-pointer"
               onClick={closeModal}
             />
+
             <div className="grid grid-rows-2 ">
               <div className="flex gap-4">
                 <div>Email:</div>testspacebook356@gmail.com
@@ -45,7 +49,10 @@ const Login = () => {
                 <div>Password:</div>password356
               </div>
               <br></br>
-              <div>Verify its you: Enter Recovery Email</div>
+              <div className="font-bold">
+                {" "}
+                Verify its you --- Enter Recovery Email
+              </div>
               <div className="flex gap-4">
                 <div>Recovery Email:</div>Therealman364@gmail.com
               </div>
@@ -56,8 +63,8 @@ const Login = () => {
             className="text-white/20 border-2 border-white/20 p-4 rounded-2xl cursor-pointer hover:text-white/90 hover:border-white/90 transition duration-500 ease-in-out"
             onClick={openModal}
           >
-            Welcome, stranger! Login with your own Google/Github Account, or
-            click me to get Google test account details!
+            Login with your own Google/Github Account. Or click me to get Google
+            Guest account details
           </div>
         )}
       </div>

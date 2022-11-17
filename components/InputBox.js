@@ -122,13 +122,15 @@ const InputBox = () => {
   return (
     <div className="blurryBackground p-2 rounded-2xl shadow-md text-gray-500 font-medium mt-6 border-2">
       <div className="flex space-x-3 p-4 items-center">
-        <Image
-          className="rounded-full"
-          src={profileImg ? profileImg : session.user.image}
-          width={40}
-          height={40}
-          layout="fixed"
-        ></Image>
+        {(session.user.image || profileImg) && (
+          <Image
+            className="rounded-full"
+            src={profileImg ? profileImg : session.user.image}
+            width={40}
+            height={40}
+            layout="fixed"
+          ></Image>
+        )}
         <form className="flex flex-1">
           <input
             type="text"

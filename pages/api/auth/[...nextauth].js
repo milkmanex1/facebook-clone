@@ -25,11 +25,6 @@ export const authOptions = {
     // RedditProvider({
     //   clientId: process.env.REDDIT_CLIENT_ID,
     //   clientSecret: process.env.REDDIT_CLIENT_SECRET,
-    //   authorization: {
-    //     params: {
-    //       duration: "permanent",
-    //     },
-    //   },
     // }),
     // MediumProvider({
     //     clientId: process.env.MEDIUM_CLIENT_ID,

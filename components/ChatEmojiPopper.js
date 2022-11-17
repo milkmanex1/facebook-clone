@@ -2,7 +2,7 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import Popper from "@mui/material/Popper";
 import { useSession, signOut } from "next-auth/react";
-import Image from "next/image";
+
 import { LogoutIcon, SparklesIcon } from "@heroicons/react/solid";
 import { EmojiHappyIcon } from "@heroicons/react/outline";
 
