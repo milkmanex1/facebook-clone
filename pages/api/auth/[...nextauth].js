@@ -39,10 +39,10 @@ export const authOptions = {
     //     clientId: process.env.SLACK_CLIENT_ID,
     //     clientSecret: process.env.SLACK_CLIENT_SECRET
     //   })
-    WordpressProvider({
-      clientId: process.env.WORDPRESS_CLIENT_ID,
-      clientSecret: process.env.WORDPRESS_CLIENT_SECRET,
-    }),
+    // WordpressProvider({
+    //   clientId: process.env.WORDPRESS_CLIENT_ID,
+    //   clientSecret: process.env.WORDPRESS_CLIENT_SECRET,
+    // }),
   ],
   //   callbacks: {
   //     //token refers to the session object
