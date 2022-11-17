@@ -76,7 +76,7 @@ const Contacts = () => {
 
   useEffect(() => {
     getChats();
-  }, []);
+  }, [guestEmail]);
   //   useEffect(() => {
   //     console.log(chats);
   //   }, [chats]);
@@ -132,7 +132,7 @@ const Contacts = () => {
   }
   useEffect(() => {
     getProfiles();
-  }, []);
+  }, [guestEmail]);
 
   async function findChatId(email) {
     //returns the chat Id between this email and the current user

@@ -93,7 +93,8 @@ const Post = (props) => {
   const [likerNames, setLikerNames] = useState([]);
   const { data: session, status } = useSession();
   //info about current user, not the guy whose page is being viewed
-  const { profileImg, userName } = useContext(AppContext);
+  const { profileImg, userName, guestName, guestImage, guestEmail } =
+    useContext(AppContext);
 
   const [identifierUserName, setIdentifierUserName] = useState(null);
   const [latestUserName, setLatestUserName] = useState(null);
@@ -109,15 +110,21 @@ const Post = (props) => {
     getDoc(docRef).then((doc) => {
       const likes = doc.data().likes;
       //if user liked it before, unlike it
-      if (likes?.find((e) => e.email === session.user.email)) {
+      if (
+        likes?.find((e) =>
+          e.email === session ? session?.user.email : guestEmail
+        )
+      ) {
         updateDoc(docRef, {
-          likes: likes.filter((likes) => likes.email !== session.user.email),
+          likes: likes.filter((likes) =>
+            likes.email !== session ? session?.user.email : guestEmail
+          ),
         });
       } else {
         //like post
         updateDoc(docRef, {
           likes: arrayUnion({
-            email: session.user.email,
+            email: session ? session?.user.email : guestEmail,
           }),
         });
         checkAndSendNotification("like");
@@ -133,22 +140,26 @@ const Post = (props) => {
       if (!dislikes) {
         updateDoc(docRef, {
           dislikes: arrayUnion({
-            email: session.user.email,
+            email: session ? session?.user.email : guestEmail,
           }),
         });
         return;
       }
       //if user disliked it before, un-dislike it
-      if (dislikes.find((e) => e.email === session.user.email)) {
+      if (
+        dislikes.find((e) =>
+          e.email === session ? session?.user.email : guestEmail
+        )
+      ) {
         updateDoc(docRef, {
-          dislikes: dislikes.filter(
-            (dislikes) => dislikes.email !== session.user.email
+          dislikes: dislikes.filter((dislikes) =>
+            dislikes.email !== session ? session?.user.email : guestEmail
           ),
         });
       } else {
         updateDoc(docRef, {
           dislikes: arrayUnion({
-            email: session.user.email,
+            email: session ? session?.user.email : guestEmail,
           }),
         });
         checkAndSendNotification("dislike");
@@ -165,11 +176,10 @@ const Post = (props) => {
       notifications.push({ ...doc.data() });
     });
     if (
-      notifications.find(
-        (e) =>
-          e.postId == id &&
-          e.senderEmail == session.user.email &&
-          e.type == type
+      notifications.find((e) =>
+        e.postId == id && e.senderEmail == session
+          ? session?.user.email
+          : guestEmail && e.type == type
       )
     ) {
       console.log("notification exists");
@@ -183,7 +193,7 @@ const Post = (props) => {
     const colRef = collection(db, `profiles/${postEmail}/notifications`);
 
     addDoc(colRef, {
-      senderEmail: session.user.email,
+      senderEmail: session ? session?.user.email : guestEmail,
       type: type,
       seen: "false",
       timestamp: serverTimestamp(),
@@ -225,9 +235,17 @@ const Post = (props) => {
       updateDoc(postRef, {
         comments: arrayUnion({
           content: commentRef.current.value,
-          userName: userName ? userName : session.user.name,
-          userImage: profileImg ? profileImg : session.user.image,
-          email: session.user.email,
+          userName: userName
+            ? userName
+            : session
+            ? session?.user.name
+            : guestName,
+          userImage: profileImg
+            ? profileImg
+            : session
+            ? session?.user.image
+            : guestImage,
+          email: session ? session?.user.email : guestEmail,
         }),
       });
       checkAndSendNotification("comment");
@@ -327,11 +345,13 @@ const Post = (props) => {
         </div>
         <p className="pt-4 mainText">{message}</p>
         {/* open popper Btn */}
-        {session.user.email == postEmail && (
-          <div className="mainText absolute top-6 right-2">
-            <DeletePopper postId={id} />
-          </div>
-        )}
+        {session
+          ? session?.user.email
+          : guestEmail == postEmail && (
+              <div className="mainText absolute top-6 right-2">
+                <DeletePopper postId={id} />
+              </div>
+            )}
       </div>
       {postImage && imageShape === "tall" ? (
         <div className="relative h-56 md:h-[800px] bg-transparent border-x-2 ">
@@ -469,7 +489,13 @@ const Post = (props) => {
         >
           <img
             className="rounded-full p-1"
-            src={profileImg ? profileImg : session.user.image}
+            src={
+              profileImg
+                ? profileImg
+                : session
+                ? session?.user.email
+                : guestEmail
+            }
             width={50}
             height={50}
             alt=""

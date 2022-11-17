@@ -4,6 +4,7 @@ import NextAuth from "next-auth/next";
 import FacebookProvider from "next-auth/providers/facebook";
 import GoogleProvider from "next-auth/providers/google";
 import GitHubProvider from "next-auth/providers/github";
+import RedditProvider from "next-auth/providers/reddit";
 export const authOptions = {
   // Configure one or more authentication providers. Can be fb, google
   providers: [
@@ -19,7 +20,18 @@ export const authOptions = {
       clientId: process.env.GITHUB_ID,
       clientSecret: process.env.GITHUB_SECRET,
     }),
+    // RedditProvider({
+    //   clientId: process.env.REDDIT_CLIENT_ID,
+    //   clientSecret: process.env.REDDIT_CLIENT_SECRET,
+    // }),
   ],
+
+  theme: {
+    colorScheme: "dark", // "auto" | "dark" | "light"
+    brandColor: "", // Hex color code
+    logo: "", // Absolute URL to image
+    buttonText: "", // Hex color code
+  },
   //   callbacks: {
   //     //token refers to the session object
   //     //this function is called whenever a jwt is created or updated
