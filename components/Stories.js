@@ -15,7 +15,7 @@ const stories = [
   {
     name: "Steven Lim",
     email: "StevenLimKorKor34@gmail.com",
-    src: "/images/stevenCry.jpg",
+    src: "/images/stevenStory.jpg",
     profile: "/images/Stevenlollipop1.jpeg",
     video: "https://www.youtube.com/watch?v=POm_WkxRbnU",
   },
