@@ -60,11 +60,11 @@ const Login = () => {
           </div>
         ) : (
           <div
-            className="text-white/20 border-2 border-white/20 p-4 rounded-2xl cursor-pointer hover:text-white/90 hover:border-white/90 transition duration-500 ease-in-out"
+            className="text-white/20 border-2 border-white/20 p-4 rounded-2xl cursor-pointer hover:text-white/90 hover:border-white/90 transition duration-500 ease-in-out flex flex-col gap-y-2"
             onClick={openModal}
           >
-            Login with your own Google/Github Account. Or click me to get Google
-            Guest account details
+            <div>Login with your own Google/Github Account.</div>
+            <div>Or click me to get Google Guest account details</div>
           </div>
         )}
       </div>
