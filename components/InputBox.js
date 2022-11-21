@@ -23,11 +23,20 @@ import {
   getDownloadURL,
   uploadString,
 } from "firebase/storage";
+import { motion, AnimatePresence, useAnimation } from "framer-motion";
 
 // import Scroll from "react-scroll";
 
 // var Link = Scroll.Link;
 // var Element = Scroll.Element;
+
+const btnVariants = {
+  tap: { scale: 0.8, transition: { duration: 0.1 } },
+  hover: {
+    // scale: [1, 1.1, 1],
+    // transition: { duration: 1, repeat: 2, type: "spring" },
+  },
+};
 
 import { doc, setDoc, getDocs } from "firebase/firestore";
 const InputBox = () => {
@@ -137,14 +146,21 @@ const InputBox = () => {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             ref={inputRef}
-            className="rounded-full h-12 bg-gray-100 flex-grow px-5 focus:outline-none"
+            className="rounded-full rounded-r-none h-12 bg-gray-100 flex-grow px-5 focus:outline-none"
             placeholder={`What's on your mind, ${
               userName ? userName : session.user.name
             }?`}
           />
-          <button className="hidden" type="submit" onClick={sendPost}>
-            Submit
-          </button>
+          <motion.button
+            variants={btnVariants}
+            whileTap="tap"
+            whileHover="hover"
+            className="bg-green-400 px-2 pr-4 rounded-full rounded-l-none text-slate-800 hover:bg-green-500"
+            type="submit"
+            onClick={sendPost}
+          >
+            Post
+          </motion.button>
         </form>
         {imageToPost && (
           <div className="flex flex-col filter hover:brightness-110 transition duration-150 transform hover:scale-105 cursor-pointer">

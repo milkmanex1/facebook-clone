@@ -28,6 +28,15 @@ import {
   serverTimestamp,
 } from "firebase/firestore";
 
+import { motion, AnimatePresence, useAnimation } from "framer-motion";
+const btnVariants = {
+  tap: { scale: 0.8, transition: { duration: 0.1 } },
+  hover: {
+    // scale: [1, 1.1, 1],
+    // transition: { duration: 1, repeat: 2, type: "spring" },
+  },
+};
+
 const ProfileInputBox = ({ identifier }) => {
   const { data: session, status } = useSession();
 
@@ -168,12 +177,19 @@ const ProfileInputBox = ({ identifier }) => {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             ref={inputRef}
-            className="rounded-full h-12 bg-gray-100 flex-grow px-5 focus:outline-none"
+            className="rounded-full h-12 rounded-r-none bg-gray-100 flex-grow px-5 focus:outline-none"
             placeholder={`Write something to ${identifier.userName}...`}
           />
-          <button className="hidden" type="submit" onClick={sendPost}>
-            Submit
-          </button>
+          <motion.button
+            variants={btnVariants}
+            whileTap="tap"
+            whileHover="hover"
+            className="bg-green-400 px-2 pr-4 rounded-full rounded-l-none text-slate-800 hover:bg-green-500"
+            type="submit"
+            onClick={sendPost}
+          >
+            Post
+          </motion.button>
         </form>
         {imageToPost && (
           <div className="flex flex-col filter hover:brightness-110 transition duration-150 transform hover:scale-105 cursor-pointer">
