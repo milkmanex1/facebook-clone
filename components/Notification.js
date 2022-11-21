@@ -99,7 +99,7 @@ const Notification = ({
           alt=""
         />
         <div className="flex flex-col">
-          <div className="grid items-center text-md font-semibold w-[230px] overflow-x-hidden mb-2">
+          <div className="grid items-center text-md font-semibold w-[210px] overflow-x-hidden mb-2">
             {senderEmail === session.user.email ? "You" : sender}{" "}
             {type === "like"
               ? "liked your post"

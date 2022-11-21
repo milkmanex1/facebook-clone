@@ -293,7 +293,7 @@ const Chat = ({ setIsChatOpen, recieverInfo }) => {
             boxShadow: 1,
             borderRadius: 2,
             // border: "1px solid white",
-            minWidth: 300,
+            minWidth: 270,
             color: "white",
             // border: "1px solid white",
           }}
