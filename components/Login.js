@@ -64,7 +64,9 @@ const Login = () => {
             onClick={openModal}
           >
             <div>Login with your own Google/Github Account.</div>
-            <div>This app will only read your username, image and email.</div>
+            <div>
+              This app will only read your email and profile information.
+            </div>
             <div>Or click me to get Guest account details</div>
           </div>
         )}
