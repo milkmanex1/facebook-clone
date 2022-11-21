@@ -16,7 +16,7 @@ const Login = () => {
   return (
     <div
       className="grid place-items-center h-screen bg-cover"
-      style={{ backgroundImage: "url(/images/earth.jpg)" }}
+      style={{ backgroundImage: "url(/images/newdark.jpg)" }}
     >
       <div className="grid place-items-center mt-20">
         {/* <Image
@@ -64,7 +64,8 @@ const Login = () => {
             onClick={openModal}
           >
             <div>Login with your own Google/Github Account.</div>
-            <div>Or click me to get Google Guest account details</div>
+            <div>This app will only read your username, image and email.</div>
+            <div>Or click me to get Guest account details</div>
           </div>
         )}
       </div>
