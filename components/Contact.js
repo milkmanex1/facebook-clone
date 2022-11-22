@@ -93,7 +93,9 @@ const Contact = ({
         height={50}
         layout="fixed"
       ></Image>
-      <p className="text-slate-100">{name}</p>
+      <p className="absolute text-sm blurryBackground rounded-md text-slate-100 md:flex md:relative md:text-base px-1">
+        {name}
+      </p>
 
       {showBell && (
         <motion.div
