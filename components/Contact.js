@@ -85,14 +85,16 @@ const Contact = ({
       key={email}
       className="flex items-center space-x-3 mb-2 relative border-transparent border-2 hover:border-slate-100 hover:border-2 hover:bg-white/20 cursor-pointer p-2 rounded-xl active:bg-blue-500"
     >
-      <Image
-        className="rounded-full"
-        objectFit="cover"
-        src={src}
-        width={50}
-        height={50}
-        layout="fixed"
-      ></Image>
+      <div className="min-w-[50px]">
+        <Image
+          className="rounded-full "
+          objectFit="cover"
+          src={src}
+          width={50}
+          height={50}
+          layout="fixed"
+        ></Image>
+      </div>
       <p className="absolute text-sm blurryBackground rounded-md text-slate-100 lg:flex lg:relative lg:text-base px-1">
         {name}
       </p>
