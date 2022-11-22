@@ -14,7 +14,7 @@ const SidebarRow = ({ src, Icon, title }) => {
         ></Image>
       )}
       {Icon && <Icon className="h-8 w-8 text-blue-500"></Icon>}
-      <p className="hidden sm:inline-flex font-medium text-slate-100">
+      <p className="hidden lg:inline-flex font-medium text-slate-100">
         {title}
       </p>
     </div>
