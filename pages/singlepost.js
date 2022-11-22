@@ -37,11 +37,11 @@ const SinglePost = () => {
     getPost();
   }, []);
 
-  //   useEffect(() => {
-  //     if (post) {
-  //       console.log(post);
-  //     }
-  //   }, [post]);
+  useEffect(() => {
+    if (post) {
+      console.log(post);
+    }
+  }, [post]);
 
   if (status !== "authenticated") {
     return <Login></Login>;
@@ -63,8 +63,8 @@ const SinglePost = () => {
           <div className="flex relative h-[calc(100vh-90px)]">
             <Sidebar></Sidebar>
             <div className="flex-grow  items-center  pb-44 pt-6 mr-4 overflow-y-auto scrollbar-hide ">
-              <div className="mx-auto max-w-md md:max-w-lg lg:max-w-2xl">
-                {post && (
+              <div className="mx-auto max-w-md md:max-w-lg lg:max-w-2xl ">
+                {post?.name ? (
                   <Post
                     name={post.name}
                     message={post.message}
@@ -82,6 +82,12 @@ const SinglePost = () => {
                   >
                     {" "}
                   </Post>
+                ) : (
+                  <div className="h-96 grid justify-center items-center ">
+                    <div className="text-slate-100 text-center blurryBackground rounded-2xl p-4 ">
+                      The post has been removed
+                    </div>
+                  </div>
                 )}
               </div>
             </div>

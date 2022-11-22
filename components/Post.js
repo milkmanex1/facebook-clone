@@ -350,7 +350,7 @@ const Post = (props) => {
       {/* --------Post Stats----------------- */}
       <div className="blurryBackground flex justify-between items-center  text-slate-200 border-2 border-y-0 px-3 py-3">
         <div className="flex space-x-4">
-          {likes.length > 0 && (
+          {likes?.length > 0 && (
             <div className="w-auto flex space-x-1">
               <p>
                 <Tooltip
@@ -404,7 +404,7 @@ const Post = (props) => {
           )}
         </div>
         <div className="flex space-x-4">
-          {Array.from(comments).length > 0 && (
+          {comments && Array.from(comments).length > 0 && (
             <div className="flex space-x-1">
               <p>{Array.from(comments).length}</p>
               <p
