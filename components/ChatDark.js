@@ -173,7 +173,7 @@ const Chat = ({ setIsChatOpen, recieverInfo }) => {
     >
       {/* ------- HEADER ------ */}
       <div className="border-b-2 flex justify-between p-1 !w-full">
-        <div>
+        <div className="min-w-[45px] mr-2">
           <Link
             href={{
               pathname: "/profile",

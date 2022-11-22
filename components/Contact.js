@@ -83,7 +83,7 @@ const Contact = ({
         setIsHovered(false);
       }}
       key={email}
-      className="flex items-center space-x-3 mb-2 relative border-transparent border-2 hover:border-slate-100 hover:border-2 hover:bg-white/20 cursor-pointer p-2 rounded-xl active:bg-blue-500"
+      className="flex items-center space-x-3 mb-2 relative border-transparent border-2 hover:border-slate-100 hover:border-2 hover:bg-white/20 cursor-pointer p-2 rounded-xl active:bg-blue-500 max-w-[300px]"
     >
       <div className="min-w-[50px]">
         <Image
@@ -95,7 +95,7 @@ const Contact = ({
           layout="fixed"
         ></Image>
       </div>
-      <p className="absolute text-sm blurryBackground rounded-md text-slate-100 lg:flex lg:relative lg:text-base px-1">
+      <p className="absolute text-sm blurryBackground lg:bg-transparent rounded-md text-slate-100 lg:flex lg:relative lg:text-base px-1">
         {name}
       </p>
 
@@ -108,7 +108,7 @@ const Contact = ({
           <NotificationsActiveIcon className="text-red-500"></NotificationsActiveIcon>
         </motion.div>
       )}
-      <div className="absolute bottom-2 left-7 bg-green-400 h-3 w-3 rounded-full "></div>
+      <div className=" lg:absolute lg:bottom-3 lg:left-6  bg-green-400 h-3 w-3 rounded-full "></div>
     </motion.div>
   );
 };

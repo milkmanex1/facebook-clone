@@ -171,98 +171,102 @@ const About = ({ identifier }) => {
       {/* cover image */}
       <div className=" relative h-96 flex justify-center ">
         <img
-          className="whiteShadow absolute w-11/12 h-full object-cover rounded-xl lg:mx-10 xl:w-8/12 border-2 border-slate-100 "
+          className="whiteShadow absolute  w-11/12 h-full object-cover rounded-xl lg:mx-10 xl:w-8/12 border-2 border-slate-100 "
           src={displayCoverImg ? displayCoverImg : "/images/emptyBanner.jpg"}
           alt="cover image here"
         />
       </div>
 
-      <div className="mt-4  lg:flex justify-center lg:justify-between lg:px-32">
-        {/*---- profile pic ----*/}
-        <div className="lg:flex lg:gap-x-4 ">
-          <div className="flex justify-center">
-            <img
-              className=" border-4 border-slate-100 rounded-full h-40 w-40 object-cover object-center min-w-36 cursor-pointer"
-              src={profileImg ? profileImg : "/images/emptyProfile.jpg"}
-              alt=""
-              onClick={() => {
-                profileImgRef.current.click();
-              }}
-            />
-            <input
-              ref={profileImgRef}
-              onChange={(e) => sendProfileImg(e)}
-              type="file"
-              hidden
-            />
-          </div>
-          <div className="text-slate-100 text-4xl font-semibold text-center flex flex-col lg:justify-center">
-            {userName ? userName : identifier.userName}
-          </div>
-        </div>
-        {/*---- buttons---- */}
-        <div className=" text-white text-xl flex justify-center gap-x-4 lg:pr-16">
-          <div className="lg:flex lg:flex-col justify-center ">
-            {!openUserNameInput && session.user.email == email && (
-              <p
-                className="simpleBtn"
-                onClick={() => setOpenUserNameInput(true)}
-              >
-                Change username
-              </p>
-            )}
-            {openUserNameInput && (
-              <form className="flex flex-col">
-                <input
-                  type="text"
-                  ref={userNameRef}
-                  className="rounded-md bg-gray-100 flex-grow px-5 focus:outline-none text-black py-2"
-                  maxLength="20"
-                  placeholder={`Enter new User Name`}
-                />
-                <div className="flex justify-end gap-x-4 m-2">
-                  <button
-                    type="button"
-                    className="simpleBtn"
-                    onClick={() => {
-                      setOpenUserNameInput(false);
-                    }}
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="submit"
-                    className="hidden"
-                    onClick={changeUserName}
-                  ></button>
-                  <button
-                    className="simpleBtn"
-                    type="button"
-                    onClick={changeUserName}
-                  >
-                    Save
-                  </button>
-                </div>
-              </form>
-            )}
-          </div>
-          <div className=" lg:flex lg:flex-col justify-center ">
-            {session.user.email == email && (
-              <p
-                className="simpleBtn"
+      <div className="w-full flex justify-center">
+        <div className="mt-4 lg:flex justify-center lg:justify-between  w-2/3 lg:w-3/4 gap-x-4">
+          {/*---- profile pic ----*/}
+          <div className="lg:flex lg:gap-x-4 ">
+            <div className="flex justify-center">
+              <img
+                className=" border-4 border-slate-100 rounded-full h-40 w-40 min-w-[200px] object-cover object-center min-w-36 cursor-pointer"
+                src={profileImg ? profileImg : "/images/emptyProfile.jpg"}
+                alt=""
                 onClick={() => {
-                  coverImgRef.current.click();
+                  if (session.user.email == email) {
+                    profileImgRef.current.click();
+                  }
                 }}
-              >
-                Edit Cover Image
-              </p>
-            )}
-            <input
-              ref={coverImgRef}
-              onChange={sendCoverImg}
-              type="file"
-              hidden
-            />
+              />
+              <input
+                ref={profileImgRef}
+                onChange={(e) => sendProfileImg(e)}
+                type="file"
+                hidden
+              />
+            </div>
+            <div className="text-slate-100 text-4xl font-semibold text-center flex flex-col lg:justify-center">
+              {userName ? userName : identifier.userName}
+            </div>
+          </div>
+          {/*---- buttons---- */}
+          <div className=" text-white text-xl flex justify-center gap-x-4 lg:pr-16">
+            <div className="lg:flex lg:flex-col justify-center ">
+              {!openUserNameInput && session.user.email == email && (
+                <p
+                  className="simpleBtn"
+                  onClick={() => setOpenUserNameInput(true)}
+                >
+                  Change username
+                </p>
+              )}
+              {openUserNameInput && (
+                <form className="flex flex-col">
+                  <input
+                    type="text"
+                    ref={userNameRef}
+                    className="rounded-md bg-gray-100 flex-grow px-5 focus:outline-none text-black py-2"
+                    maxLength="20"
+                    placeholder={`Enter new User Name`}
+                  />
+                  <div className="flex justify-end gap-x-4 m-2">
+                    <button
+                      type="button"
+                      className="simpleBtn"
+                      onClick={() => {
+                        setOpenUserNameInput(false);
+                      }}
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      type="submit"
+                      className="hidden"
+                      onClick={changeUserName}
+                    ></button>
+                    <button
+                      className="simpleBtn"
+                      type="button"
+                      onClick={changeUserName}
+                    >
+                      Save
+                    </button>
+                  </div>
+                </form>
+              )}
+            </div>
+            <div className=" lg:flex lg:flex-col justify-center ">
+              {session.user.email == email && (
+                <p
+                  className="simpleBtn"
+                  onClick={() => {
+                    coverImgRef.current.click();
+                  }}
+                >
+                  Edit Cover Image
+                </p>
+              )}
+              <input
+                ref={coverImgRef}
+                onChange={sendCoverImg}
+                type="file"
+                hidden
+              />
+            </div>
           </div>
         </div>
       </div>
