@@ -285,7 +285,7 @@ const Chat = ({ setIsChatOpen, recieverInfo }) => {
         </div>
       )}
       {/* //? -----------input ------------------ */}
-      <form className="absolute bottom-2 w-11/12 px-2">
+      <form className="absolute bottom-2 left-4 w-11/12 px-2">
         <FormControl
           fullWidth={true}
           sx={{
@@ -320,7 +320,7 @@ const Chat = ({ setIsChatOpen, recieverInfo }) => {
           </Button>
         </FormControl>
       </form>
-      <div className="absolute right-0">
+      <div className="absolute -left-2 bottom-6">
         <ChatEmojiPopper input={input} setInput={setInput} />
       </div>
     </motion.div>

@@ -32,14 +32,17 @@ const style = {
 };
 const buttonVariants = {
   hover: {
-    scale: 1.1,
+    // scale: 1.1,
     textShadow: "0px 0px 8px rgb(249, 217, 15 )",
     boxShadow: "0px 0px 8px rgb(249, 217, 15 )",
-    transition: {
-      yoyo: Infinity,
-    },
+    // transition: {
+    //   yoyo: Infinity,
+    // },
   },
 };
+
+const custom = { theme: "dark" };
+
 export default function SimplePopper({ setInput, input }) {
   const { data: session, status } = useSession();
 
@@ -68,7 +71,7 @@ export default function SimplePopper({ setInput, input }) {
   //   }, []);
 
   return (
-    <div className="flex-grow hover:">
+    <div className="flex-grow">
       <motion.div
         className="inputIcon"
         onClick={handleClick}
@@ -76,14 +79,18 @@ export default function SimplePopper({ setInput, input }) {
         variants={buttonVariants}
         whileHover="hover"
       >
-        <EmojiHappyIcon className="h-7 text-yellow-300"></EmojiHappyIcon>
+        <EmojiHappyIcon className="h-6 text-yellow-300/40 hover:text-yellow-300"></EmojiHappyIcon>
       </motion.div>
 
       <Popper id={id} open={open} anchorEl={anchorEl}>
         {/* <Box sx={{ border: 1, p: 1, bgcolor: "background.paper" }}> */}
         <ClickAwayListener onClickAway={handleClickAway}>
           <Box>
-            <Picker data={data} onEmojiSelect={handleOnSelect} />
+            <Picker
+              data={data}
+              onEmojiSelect={handleOnSelect}
+              emojiButtonSize="36"
+            />
           </Box>
         </ClickAwayListener>
       </Popper>
