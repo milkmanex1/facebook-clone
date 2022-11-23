@@ -3,6 +3,12 @@ Demo here: https://spacebook2.vercel.app/
 
 ## Spacebook
 Enjoy social media with beautiful space backgrounds!
+
+### Video Demo
+
+https://user-images.githubusercontent.com/81763256/203465660-d2e167e2-930f-43a9-bd2e-cb2eadb2886e.mp4
+
+
 Spacebook is a fully-responsive social media application built entirely from scratch with the following technologies:
 
 - Next Js
@@ -18,10 +24,6 @@ Notable features include:
 - Sign in with Next Authentication
 - Data stored in and retrieved from firebase firestore
 - Infinite scroll feed. Loads more posts as you reach bottom of the page
-
-### Video Demo
-
-https://user-images.githubusercontent.com/81763256/203465660-d2e167e2-930f-43a9-bd2e-cb2eadb2886e.mp4
 
 ### Detailed User Features:
 
