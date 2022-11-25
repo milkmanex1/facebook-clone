@@ -13,8 +13,10 @@ import { doc, getDoc, setDoc, collection } from "firebase/firestore";
 import { db } from "../firebase";
 
 export default function Home() {
-  const { backgrounds, bgIndex } = useContext(AppContext);
+  const { backgrounds, bgIndex, isGuest } = useContext(AppContext);
   const { data: session, status } = useSession();
+
+  console.log(session);
 
   const [email, setEmail] = useState(null);
   //stuff to pull from firebase
@@ -54,7 +56,7 @@ export default function Home() {
     getInfo();
   }, [email]);
 
-  if (!session) return <Login />;
+  if (!session && !isGuest) return <Login />;
   return (
     <div
       className="h-screen w-screen !overflow-hidden mainBg"

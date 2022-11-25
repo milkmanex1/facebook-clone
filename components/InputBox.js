@@ -40,9 +40,13 @@ const btnVariants = {
 
 import { doc, setDoc, getDocs } from "firebase/firestore";
 const InputBox = () => {
-  const { data: session, status } = useSession();
-
-  const { profileImg, userName } = useContext(AppContext);
+  const { data } = useSession();
+  let session = data;
+  const { profileImg, userName, guestSession } = useContext(AppContext);
+  if (!session) {
+    console.log("changing session...");
+    session = guestSession;
+  }
 
   const inputRef = useRef(null);
   const filepickerRef = useRef(null);

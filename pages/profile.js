@@ -15,8 +15,17 @@ import { doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "../firebase";
 
 const Profile = () => {
-  const { data: session, status } = useSession();
-  const { backgrounds, bgIndex } = useContext(AppContext);
+  //   const { data: session, status } = useSession();
+  //   const { backgrounds, bgIndex, isGuest } = useContext(AppContext);
+
+  const { data } = useSession();
+  let session = data;
+  const { backgrounds, bgIndex, guestSession, isGuest } =
+    useContext(AppContext);
+  if (!session) {
+    console.log("changing session...");
+    session = guestSession;
+  }
 
   //get the identifier object containing info about user BELONGING to that POST, from the specific post, when user clicks on the profile img. Pass as a prop into the required components
   const router = useRouter();
@@ -39,18 +48,18 @@ const Profile = () => {
     }
   }
   useEffect(() => {
-    if (status === "authenticated") {
+    if (session) {
       setEmail(session.user.email);
     }
-  }, [status]);
+  }, []);
   useEffect(() => {
     getInfo();
   }, [email]);
 
-  if (status !== "authenticated") {
+  if (!session && !isGuest) {
     return <Login></Login>;
   }
-  if (status === "authenticated" && identifier.email) {
+  if (session && identifier.email) {
     return (
       <div
         className="h-screen overflow-hidden mainBg"

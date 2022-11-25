@@ -62,10 +62,16 @@ const variants = {
 };
 
 export default function SimplePopper({ backgrounds }) {
-  const { data: session, status } = useSession();
+  const { data } = useSession();
+  let session = data;
   const [notifications, setNotifications] = useState([]);
   //get required stuff from context
-  const { changeBG, profileImg, userName } = useContext(AppContext);
+  const { changeBG, profileImg, userName, guestSession } =
+    useContext(AppContext);
+  if (!session) {
+    console.log("changing session...");
+    session = guestSession;
+  }
   //for the Btns
   const [btn1, setBtn1] = useState(true);
   const [btn2, setBtn2] = useState(false);

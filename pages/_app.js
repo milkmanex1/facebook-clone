@@ -3,7 +3,7 @@ import "../styles/Login.css";
 import "../styles/index.css";
 import { SessionProvider } from "next-auth/react";
 import AppContext from "../components/AppContext";
-import { useState, createContext, useRef } from "react";
+import { useState, createContext, useRef, useEffect } from "react";
 import { useRouter } from "next/router";
 
 //All stuff to be shared by useContext are defined here
@@ -31,8 +31,36 @@ function MyApp({ Component, pageProps }) {
       setBgIndex(0);
     }
   }
+  const guestSession = {
+    user: {
+      email: "testspacebook356@gmail.com",
+      image:
+        "https://lh3.googleusercontent.com/a/ALm5wu1n4CYK4rjM42jS7zk1ez_ILEVCzkUc-w8uyYNC=s96-c",
+      name: "Test Spacebook",
+    },
+  };
   const [profileImg, setProfileImg] = useState(null);
   const [userName, setUserName] = useState(null);
+  //get item from localStorage, taken from john smilga grocery list
+  const getLocalStorage = () => {
+    if (typeof window !== "undefined") {
+      let isGuest = localStorage.getItem("isGuest");
+      if (isGuest !== "undefined") {
+        return (isGuest = JSON.parse(localStorage.getItem("isGuest")));
+      } else {
+        return false;
+      }
+    }
+  };
+
+  useEffect(() => {}, []);
+
+  const [isGuest, setIsGuest] = useState(getLocalStorage());
+
+  //store isGuest in localstorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem("isGuest", JSON.stringify(isGuest));
+  }, [isGuest]);
 
   return (
     <SessionProvider session={pageProps.session}>
@@ -46,6 +74,9 @@ function MyApp({ Component, pageProps }) {
           setProfileImg,
           userName,
           setUserName,
+          guestSession,
+          isGuest,
+          setIsGuest,
         }}
       >
         <Component {...pageProps} key={router.asPath} />

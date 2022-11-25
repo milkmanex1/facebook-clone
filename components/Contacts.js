@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 
 import Chat from "./ChatDark";
 import { SearchIcon } from "@heroicons/react/outline";
@@ -20,9 +20,17 @@ import { db, serverTimestamp } from "../firebase";
 import { useCollection } from "react-firebase-hooks/firestore";
 import { motion, AnimatePresence } from "framer-motion";
 import Contact from "./Contact";
+import AppContext from "../components/AppContext";
 
 const Contacts = () => {
-  const { data: session, status } = useSession();
+  const { data } = useSession();
+  let session = data;
+  const { profileImg, userName, guestSession } = useContext(AppContext);
+  if (!session) {
+    console.log("changing session...");
+    session = guestSession;
+  }
+
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [profileInfo, setProfileInfo] = useState([]);
   const [chats, setChats] = useState([]);

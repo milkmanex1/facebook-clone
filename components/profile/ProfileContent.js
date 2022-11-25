@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, react } from "react";
+import { useEffect, useRef, useState, useContext, react } from "react";
 
 import Image from "next/image";
 import { useSession } from "next-auth/react";
@@ -15,6 +15,7 @@ import {
   setDoc,
 } from "firebase/firestore";
 import { db } from "../../firebase";
+import AppContext from "../AppContext";
 
 //This file contains the intro card and Posts by the user
 //When the page loads, it will pull introInfo from firebase matching the user Email
@@ -29,7 +30,13 @@ const ProfileContent = ({ identifier }) => {
   const [openAddItems, setOpenAddItems] = useState(false);
   const [openEditBio, setOpenEditBio] = useState(false);
   const inputRef = useRef(null);
-  const { data: session } = useSession();
+  const { data } = useSession();
+  let session = data;
+  const { guestSession } = useContext(AppContext);
+  if (!session) {
+    console.log("changing session...");
+    session = guestSession;
+  }
 
   async function addItem(e) {
     e.preventDefault();

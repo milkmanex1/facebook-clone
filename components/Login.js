@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import Image from "next/image";
 import { signIn } from "next-auth/react";
 import { XCircleIcon } from "@heroicons/react/solid";
 // import '../styles/Login.css'
-
+import AppContext from "../components/AppContext";
 const Login = () => {
+  const { isGuest, setIsGuest } = useContext(AppContext);
   const [modalOpen, setModalOpen] = useState(false);
   function openModal() {
     setModalOpen(true);
@@ -12,6 +13,13 @@ const Login = () => {
   function closeModal() {
     setModalOpen(false);
   }
+
+  function signInAsGuest() {
+    setIsGuest(true);
+  }
+  useEffect(() => {
+    console.log(`isGuest: ${isGuest}`);
+  }, []);
 
   return (
     <div
@@ -28,6 +36,9 @@ const Login = () => {
 
         <h1 className="loginBtn mb-5" onClick={signIn}>
           Login
+        </h1>
+        <h1 className="loginBtn mb-5" onClick={signInAsGuest}>
+          Login as Guest
         </h1>
         {modalOpen ? (
           <div className="text-white border-2 border-white p-2 rounded-2xl relative text-lg ">

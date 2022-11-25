@@ -9,6 +9,7 @@ import Link from "next/link";
 import AppContext from "../components/AppContext";
 import { useState, useEffect, useContext } from "react";
 import { motion } from "framer-motion";
+
 const style = {
   //   position: "absolute",
   //   top: 0,
@@ -40,10 +41,16 @@ const variants = {
 };
 
 export default function SimplePopper({ backgrounds }) {
-  const { data: session, status } = useSession();
-
+  const { data } = useSession();
+  let session = data;
   //get required stuff from context
-  const { changeBG, profileImg, userName } = useContext(AppContext);
+  const { changeBG, profileImg, userName, setIsGuest, guestSession } =
+    useContext(AppContext);
+  if (!session) {
+    console.log("changing session...");
+    session = guestSession;
+  } else {
+  }
 
   //MUI function
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -62,6 +69,11 @@ export default function SimplePopper({ backgrounds }) {
   //     console.log(`popper userName is: ${userName}`);
   //   }, []);
 
+  function signOutAll() {
+    signOut();
+    setIsGuest(false);
+  }
+
   return (
     <div className="">
       <motion.div
@@ -77,8 +89,8 @@ export default function SimplePopper({ backgrounds }) {
           src={
             profileImg
               ? profileImg
-              : session.user.image
-              ? session.user.image
+              : session?.user.image
+              ? session?.user.image
               : "/images/guest-icon.png"
           }
           height={50}
@@ -104,8 +116,8 @@ export default function SimplePopper({ backgrounds }) {
                 href={{
                   pathname: "/profile",
                   query: {
-                    email: session.user.email,
-                    userName: session.user.name,
+                    email: session?.user.email,
+                    userName: session?.user.name,
                   },
                 }}
               >
@@ -138,7 +150,7 @@ export default function SimplePopper({ backgrounds }) {
               </div>
 
               {/* logout */}
-              <div className="popperBtn" onClick={signOut}>
+              <div className="popperBtn" onClick={signOutAll}>
                 <LogoutIcon className="h-10 w-10 bg-slate-500 rounded-full p-2 "></LogoutIcon>
                 <div className="grid items-center text-md font-semibold ">
                   Logout

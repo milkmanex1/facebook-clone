@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useContext } from "react";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
 import InputBox from "../InputBox";
@@ -28,9 +28,16 @@ import {
   setDoc,
 } from "firebase/firestore";
 //This page contains the user profile pic, name, uploadCoverImg and the 'Edit cover' button
+import AppContext from "../AppContext";
 
 const About = ({ identifier }) => {
-  const { data: session } = useSession();
+  const { data } = useSession();
+  let session = data;
+  const { guestSession } = useContext(AppContext);
+  if (!session) {
+    console.log("changing session...");
+    session = guestSession;
+  }
 
   const [email, setEmail] = useState(identifier.email);
 

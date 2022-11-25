@@ -20,8 +20,13 @@ var ScrollLink = Scroll.Link;
 var Element = Scroll.Element;
 
 const Sidebar = () => {
-  const { data: session, status } = useSession();
-  const { profileImg, userName } = useContext(AppContext);
+  const { data } = useSession();
+  let session = data;
+  const { profileImg, userName, guestSession } = useContext(AppContext);
+  if (!session) {
+    console.log("changing session...");
+    session = guestSession;
+  }
   return (
     <div className="flex flex-col p-2 mt-5 xl:w-[300px] xl:min-w-[200px]">
       <Link

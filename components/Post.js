@@ -91,9 +91,13 @@ const Post = (props) => {
   const [showComments, setShowComments] = useState(false);
   const commentRef = useRef(null);
   const [likerNames, setLikerNames] = useState([]);
-  const { data: session, status } = useSession();
+  const { data } = useSession();
+  let session = data;
   //info about current user, not the guy whose page is being viewed
-  const { profileImg, userName } = useContext(AppContext);
+  const { profileImg, userName, guestSession } = useContext(AppContext);
+  if (!session) {
+    session = guestSession;
+  }
 
   const [identifierUserName, setIdentifierUserName] = useState(null);
   const [latestUserName, setLatestUserName] = useState(null);
