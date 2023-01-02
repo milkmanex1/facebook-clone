@@ -14,10 +14,11 @@ Spacebook is a fully-responsive social media application built entirely from scr
 - Next Js
 - Next Authentication
 - Tailwind Css
-- Firebase
+- Firebase database
 - Material Ui
 - Framer Motion
-- Node Js
+- Context Api
+
 
 Notable features include:
 - fully responsive custom css 
