@@ -80,7 +80,7 @@ const Header = () => {
       </div>
 
       {/* center */}
-      <div className="flex justify-center flex-grow">
+      <div className="invisible sm:visible flex justify-center flex-grow">
         <div className="flex space-x-6 md:space-x-2">
           <HeaderIcon active={true} Icon={HomeIcon}></HeaderIcon>
           <HeaderIcon Icon={FlagIcon}></HeaderIcon>
@@ -91,7 +91,7 @@ const Header = () => {
         </div>
       </div>
       {/* right */}
-      <div className="flex items-center gap-x-2 sm:space-x-1 justify-end md:ml-16">
+      <div className="flex items-center gap-x-2 sm:space-x-1 justify-self-end md:ml-16">
         <ViewGridIcon className="icon"></ViewGridIcon>
         <ChatIcon className="icon"></ChatIcon>
         <NotificationsPopper></NotificationsPopper>

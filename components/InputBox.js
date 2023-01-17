@@ -133,7 +133,7 @@ const InputBox = () => {
       <div className="flex space-x-3 p-4 items-center">
         {(session.user.image || profileImg) && (
           <Image
-            className="rounded-full"
+            className="rounded-full "
             src={profileImg ? profileImg : session.user.image}
             width={40}
             height={40}
