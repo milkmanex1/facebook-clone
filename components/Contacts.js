@@ -189,7 +189,7 @@ const Contacts = () => {
     checkAllChats();
   }, []);
   return (
-    <div className="flex flex-col p-2 mt-5 h-3/4">
+    <div className=" hidden sm:flex flex-col p-2 mt-5 h-3/4">
       <div className="flex justify-between items-center text-slate-200 mb-5">
         <h2 className="text-xl">Contacts</h2>
         <div className="hidden lg:flex space-x-2">

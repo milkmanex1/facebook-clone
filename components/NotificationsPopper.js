@@ -167,7 +167,7 @@ export default function SimplePopper({ backgrounds }) {
 
             <div
               id="Ncontainer"
-              className="flex flex-col pt-2 h-[650px] overflow-y-auto max-h-[65vh]"
+              className="flex flex-col pt-2 h-[300px] sm:h-[650px] overflow-y-auto max-h-[65vh]"
             >
               {btn1 &&
                 notifications.map((notification, index) => {

@@ -23,7 +23,7 @@ const Sidebar = () => {
   const { data: session, status } = useSession();
   const { profileImg, userName } = useContext(AppContext);
   return (
-    <div className="flex flex-col p-2 mt-5 xl:w-[300px] xl:min-w-[200px]">
+    <div className="hidden sm:flex flex-col p-2 mt-5 xl:w-[300px] xl:min-w-[200px]">
       <Link
         href={{
           pathname: "/profile",

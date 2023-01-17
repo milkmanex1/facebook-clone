@@ -76,7 +76,7 @@ const Stories = () => {
   //   }, []);
 
   return (
-    <div className="flex justify-center space-x-3 mx-auto">
+    <div className="flex justify-center space-x-3 mx-auto w-auto">
       {stories.map((story) => {
         return (
           <StoryCard
