@@ -15,6 +15,7 @@ import { db } from "../firebase";
 export default function Home() {
   const { backgrounds, bgIndex } = useContext(AppContext);
   const { data: session, status } = useSession();
+  console.log(session);
 
   const [email, setEmail] = useState(null);
   //stuff to pull from firebase

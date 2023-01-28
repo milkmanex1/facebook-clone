@@ -40,19 +40,14 @@ export const authOptions = {
     // }),
   ],
   //   callbacks: {
-  //     //token refers to the session object
-  //     //this function is called whenever a jwt is created or updated
-  //     async jwt(token, user) {
-  //       if (user) {
-  //         //adding an id field to the token
-  //         token.id = user.id;
-  //       }
+  //     jwt: async ({ token, user }) => {
+  //       user && (token.user = user);
   //       return token;
   //     },
-  //     //this function below recieves the token from the jwt callback.
-  //     async session(session, token) {
-  //       session.user.id = token.id;
-  //       return session;
+  //     session: async ({ session, token }) => {
+  //       const newSession = session;
+  //       newSession.user.email = "testspacebook356@gmail.com";
+  //       return newSession;
   //     },
   //   },
 
