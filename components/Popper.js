@@ -49,7 +49,6 @@ export default function SimplePopper({ backgrounds }) {
   if (!session) {
     console.log("changing session...");
     session = guestSession;
-  } else {
   }
 
   //MUI function

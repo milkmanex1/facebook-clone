@@ -34,8 +34,7 @@ function MyApp({ Component, pageProps }) {
   const guestSession = {
     user: {
       email: "testspacebook356@gmail.com",
-      image:
-        "https://lh3.googleusercontent.com/a/ALm5wu1n4CYK4rjM42jS7zk1ez_ILEVCzkUc-w8uyYNC=s96-c",
+      image: "/images/logo1.png",
       name: "Test Spacebook",
     },
   };

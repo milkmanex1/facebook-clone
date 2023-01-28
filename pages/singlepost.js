@@ -14,8 +14,22 @@ import Sidebar from "../components/Sidebar";
 import Contacts from "../components/Contacts";
 
 const SinglePost = () => {
-  const { data: session, status } = useSession();
-  const { backgrounds, bgIndex } = useContext(AppContext);
+  const { data } = useSession();
+  let session = data;
+  //get required stuff from context
+  const {
+    changeBG,
+    profileImg,
+    userName,
+    setIsGuest,
+    guestSession,
+    backgrounds,
+    bgIndex,
+  } = useContext(AppContext);
+  if (!session) {
+    console.log("changing session...");
+    session = guestSession;
+  }
   const [post, setPost] = useState();
   //   const [postId, setPostId] = useState();
 
@@ -43,60 +57,57 @@ const SinglePost = () => {
     }
   }, [post]);
 
-  if (status !== "authenticated") {
-    return <Login></Login>;
-  }
-  if (status === "authenticated") {
-    return (
-      <div
-        className="h-screen overflow-hidden mainBg"
-        style={{
-          backgroundImage: `url(${backgrounds[bgIndex].src})`,
-          backgroundSize: "cover",
-        }}
-      >
-        <Head>
-          <title>Spacebook</title>
-        </Head>
-        <Header></Header>
-        <main className="h-[calc(100vh-90px)] overflow-y-auto scrollbar-hide">
-          <div className="flex relative h-[calc(100vh-90px)]">
-            <Sidebar></Sidebar>
-            <div className="flex-grow  items-center  pb-44 pt-6 mr-4 overflow-y-auto scrollbar-hide ">
-              <div className="mx-auto max-w-md md:max-w-lg lg:max-w-2xl ">
-                {post?.name ? (
-                  <Post
-                    name={post.name}
-                    message={post.message}
-                    postEmail={post.email}
-                    receiverEmail={post.receiverEmail}
-                    timestamp={post.timestamp}
-                    image={post.image}
-                    postImage={post.postImage}
-                    likes={post.likes}
-                    dislikes={post.dislikes}
-                    shares={post.shares}
-                    imageShape={post.imageShape}
-                    comments={post.comments}
-                    id={post.id}
-                  >
-                    {" "}
-                  </Post>
-                ) : (
-                  <div className="h-96 grid justify-center items-center ">
-                    <div className="text-slate-100 text-center blurryBackground rounded-2xl p-4 ">
-                      The post has been removed
-                    </div>
+  if (!session && !isGuest) return <Login />;
+
+  return (
+    <div
+      className="h-screen overflow-hidden mainBg"
+      style={{
+        backgroundImage: `url(${backgrounds[bgIndex].src})`,
+        backgroundSize: "cover",
+      }}
+    >
+      <Head>
+        <title>Spacebook</title>
+      </Head>
+      <Header></Header>
+      <main className="h-[calc(100vh-90px)] overflow-y-auto scrollbar-hide">
+        <div className="flex relative h-[calc(100vh-90px)]">
+          <Sidebar></Sidebar>
+          <div className="flex-grow  items-center  pb-44 pt-6 mr-4 overflow-y-auto scrollbar-hide ">
+            <div className="mx-auto max-w-md md:max-w-lg lg:max-w-2xl ">
+              {post?.name ? (
+                <Post
+                  name={post.name}
+                  message={post.message}
+                  postEmail={post.email}
+                  receiverEmail={post.receiverEmail}
+                  timestamp={post.timestamp}
+                  image={post.image}
+                  postImage={post.postImage}
+                  likes={post.likes}
+                  dislikes={post.dislikes}
+                  shares={post.shares}
+                  imageShape={post.imageShape}
+                  comments={post.comments}
+                  id={post.id}
+                >
+                  {" "}
+                </Post>
+              ) : (
+                <div className="h-96 grid justify-center items-center ">
+                  <div className="text-slate-100 text-center blurryBackground rounded-2xl p-4 ">
+                    The post has been removed
                   </div>
-                )}
-              </div>
+                </div>
+              )}
             </div>
-            <Contacts />
           </div>
-        </main>
-      </div>
-    );
-  }
+          <Contacts />
+        </div>
+      </main>
+    </div>
+  );
 };
 
 export default SinglePost;

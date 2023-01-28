@@ -39,9 +39,22 @@ const Notification = ({
   resultRef,
   index,
 }) => {
-  const [userName, setUserName] = useState("");
-  const [profileImg, setProfileImg] = useState("");
-  const { data: session, status } = useSession();
+  const { data } = useSession();
+  let session = data;
+  //get required stuff from context
+  const {
+    changeBG,
+    profileImg,
+    setProfileImg,
+    userName,
+    setUserName,
+    setIsGuest,
+    guestSession,
+  } = useContext(AppContext);
+  if (!session) {
+    console.log("changing session...");
+    session = guestSession;
+  }
 
   async function getInfo(email) {
     //get profile image, username if they exist

@@ -64,9 +64,15 @@ const chatBoxVariants = {
   },
 };
 const Chat = ({ setIsChatOpen, recieverInfo }) => {
-  const { data: session, status } = useSession();
-
-  const { profileImg, userName } = useContext(AppContext);
+  const { data } = useSession();
+  let session = data;
+  //get required stuff from context
+  const { changeBG, profileImg, userName, setIsGuest, guestSession } =
+    useContext(AppContext);
+  if (!session) {
+    console.log("changing session...");
+    session = guestSession;
+  }
 
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState([
@@ -135,7 +141,11 @@ const Chat = ({ setIsChatOpen, recieverInfo }) => {
       const colRef = collection(db, `chats/${messageId}/messages`);
       await addDoc(colRef, {
         sender: session.user.email,
-        senderImg: profileImg ? profileImg : session.user.image,
+        senderImg: profileImg
+          ? profileImg
+          : session.user.image
+          ? session.user.image
+          : "/images/guest-icon.png",
         text: input,
         timestamp: serverTimestamp(),
       });

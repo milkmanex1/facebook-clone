@@ -39,16 +39,12 @@ export const authOptions = {
     //   clientSecret: process.env.WORDPRESS_CLIENT_SECRET,
     // }),
   ],
-  //   callbacks: {
-  //     jwt: async ({ token, user }) => {
-  //       user && (token.user = user);
-  //       return token;
-  //     },
-  //     session: async ({ session, token }) => {
-  //       session.user = token.user;
-  //       return session;
-  //     },
-  //   },
+  callbacks: {
+    async session(session, token) {
+      session.isGuest;
+      return session;
+    },
+  },
 
   secret: process.env.JWT_SECRET,
 };
