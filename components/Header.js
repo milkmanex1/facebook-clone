@@ -50,6 +50,7 @@ const Header = () => {
   //   }
   return (
     <div className="sticky top-0 z-50 bg-slate-900/40  flex items-center p-2 lg:px-5 shadow-md">
+      {/* left-side */}
       <div className="flex items-center ">
         <Link href="/">
           {/* wrap it in <a> tags so the annoying error goes away */}
@@ -69,7 +70,7 @@ const Header = () => {
           <SearchIcon className="h-6 text-gray-600 cursor-pointer" />
 
           <input
-            className="hidden md:inline-flex ml-2 items-center bg-transparent outline-none placeholder-gray-500 flex-shrink"
+            className="hidden lg:inline-flex ml-2 items-center bg-transparent outline-none placeholder-gray-500 flex-shrink"
             type="text"
             placeholder="Search Spacebook"
           />
@@ -80,7 +81,7 @@ const Header = () => {
       </div>
 
       {/* center */}
-      <div className="invisible sm:visible flex justify-center flex-grow">
+      <div className="invisible md:visible w-2/3 flex justify-center ">
         <div className="flex space-x-6 md:space-x-2">
           <HeaderIcon active={true} Icon={HomeIcon}></HeaderIcon>
           <HeaderIcon Icon={FlagIcon}></HeaderIcon>
@@ -91,7 +92,7 @@ const Header = () => {
         </div>
       </div>
       {/* right */}
-      <div className="flex items-center gap-x-2 sm:space-x-1 justify-self-end md:ml-16">
+      <div className=" absolute right-2 blurryBackground flex items-center gap-x-2 sm:space-x-1 justify-self-end md:ml-16 ">
         <ViewGridIcon className="icon"></ViewGridIcon>
         <ChatIcon className="icon"></ChatIcon>
         <NotificationsPopper></NotificationsPopper>
