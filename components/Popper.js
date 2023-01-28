@@ -72,7 +72,10 @@ export default function SimplePopper({ backgrounds }) {
     signOut();
     setIsGuest(false);
   }
-
+  useEffect(() => {
+    console.log("profileImg initialized or changed");
+    console.log(profileImg);
+  }, [profileImg]);
   return (
     <div className="">
       <motion.div

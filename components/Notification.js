@@ -56,18 +56,18 @@ const Notification = ({
     session = guestSession;
   }
 
-  async function getInfo(email) {
-    //get profile image, username if they exist
-    if (email) {
-      const profileRef = doc(db, "profiles", email);
-      const snap = await getDoc(profileRef);
-      if (snap.exists()) {
-        const newProfileImg = snap.data().profileImg;
-        setProfileImg(newProfileImg);
-        setUserName(snap.data().userName);
-      }
-    }
-  }
+  //   async function getInfo(email) {
+  //     //get profile image, username if they exist
+  //     if (email) {
+  //       const profileRef = doc(db, "profiles", email);
+  //       const snap = await getDoc(profileRef);
+  //       if (snap.exists()) {
+  //         const newProfileImg = snap.data().profileImg;
+  //         setProfileImg(newProfileImg);
+  //         setUserName(snap.data().userName);
+  //       }
+  //     }
+  //   }
   async function readNotification() {
     console.log("reading notification..");
     const docRef = doc(
@@ -85,9 +85,9 @@ const Notification = ({
     });
   }
 
-  useEffect(() => {
-    getInfo(senderEmail);
-  }, []);
+  //   useEffect(() => {
+  //     getInfo(senderEmail);
+  //   }, []);
 
   return (
     <Link

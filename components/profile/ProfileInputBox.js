@@ -38,9 +38,15 @@ const btnVariants = {
 };
 
 const ProfileInputBox = ({ identifier }) => {
-  const { data: session, status } = useSession();
-
-  const { profileImg, userName } = useContext(AppContext);
+  const { data } = useSession();
+  let session = data;
+  //get required stuff from context
+  const { changeBG, profileImg, userName, setIsGuest, guestSession } =
+    useContext(AppContext);
+  if (!session) {
+    console.log("changing session...");
+    session = guestSession;
+  }
   const [input, setInput] = useState("");
   const inputRef = useRef(null);
   const filepickerRef = useRef(null);
