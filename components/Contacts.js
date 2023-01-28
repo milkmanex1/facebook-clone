@@ -111,8 +111,8 @@ const Contacts = () => {
     onSnapshot(q, (snapshot) => {
       let tempInfo = [];
       snapshot.forEach((doc) => {
-        //only get those profiles with userName and profileImg
-        if (doc.data().userName && doc.data().profileImg)
+        //only get those profiles with userName and profileImg and is one of the original profiles that I set
+        if (doc.data().userName && doc.data().profileImg && doc.data().original)
           tempInfo.push({
             userName: doc.data().userName,
             profileImg: doc.data().profileImg,
