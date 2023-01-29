@@ -15,12 +15,26 @@ import { db } from "../firebase";
 export default function Home() {
   const { backgrounds, bgIndex } = useContext(AppContext);
   const { data: session, status } = useSession();
-  console.log(session);
 
   const [email, setEmail] = useState(null);
   //stuff to pull from firebase
   const { profileImg, setProfileImg, userName, setUserName } =
     useContext(AppContext);
+  // const [session, setSession] = useState({
+  //   user: {
+  //     email: "kokgabriel@gmail.com",
+  //     image:
+  //       "https://lh3.googleusercontent.com/a/AEdFTp7-I8sVlTuZCK4mVCfTFJQ-Ii8NIsee9hInVAJZ2A=s96-c",
+  //     name: "Gab X",
+  //   },
+  // });
+  // useEffect(() => {
+  //   setSession(session1);
+  // }, [session1]);
+
+  // useEffect(() => {
+  //   console.log(session);
+  // }, [session]);
 
   //pull data from firebase
   async function getInfo() {

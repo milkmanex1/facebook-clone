@@ -14,9 +14,12 @@ const Login = () => {
   }
 
   return (
+    // <div className="bg-black h-[100vh] w-[100vw]"></div>
     <div
-      className="grid place-items-center h-screen bg-cover"
-      style={{ backgroundImage: "url(/images/newdark.jpg)" }}
+      className="h-[100vh] w-[100vw] grid place-items-center fixed bg-cover bg-center"
+      style={{
+        backgroundImage: "url(/images/newdark.jpg)",
+      }}
     >
       <div className="grid place-items-center mt-20">
         {/* <Image
@@ -24,13 +27,18 @@ const Login = () => {
             height={150}
             width={150}
           ></Image> */}
-        <div className="welcome">Spacebook</div>
+        <div className="font-['Alien_Ravager'] text-white text-6xl sm:text-9xl pb-6">
+          Spacebook
+        </div>
 
-        <h1 className="loginBtn mb-5" onClick={signIn}>
+        <h1
+          className="loginBtn w-[200px] sm:w-[300px]  text-lg sm:text-xl p-2 sm:p-4  mb-5"
+          onClick={signIn}
+        >
           Login
         </h1>
         {modalOpen ? (
-          <div className="text-white border-2 border-white p-2 rounded-2xl relative text-lg ">
+          <div className="text-white border-2 border-white p-2 rounded-2xl relative sm:text-lg text-md ">
             <div className="mb-4 mx-8">
               Tip: Copy paste the info below on your Notepad
             </div>
